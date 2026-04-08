@@ -4,109 +4,107 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>How to Use — Ripple Import</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="legal-page">
 
   <nav class="nav">
     <a href="./" class="nav-brand">
-      <svg width="28" height="28" viewBox="0 0 260 230" fill="none" role="img" aria-label="Ripple Import">
-        <defs>
-          <linearGradient id="n-arrow" x1="130" y1="5" x2="130" y2="165" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#0050c8"/><stop offset="100%" stop-color="#40a8f8"/>
-          </linearGradient>
-          <linearGradient id="n-rip" x1="20" y1="160" x2="240" y2="220" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#1080e8"/><stop offset="100%" stop-color="#60c0ff"/>
-          </linearGradient>
-        </defs>
-        <ellipse cx="130" cy="195" rx="90" ry="26" stroke="#b0d4f4" stroke-width="5" fill="none" opacity="0.5"/>
-        <ellipse cx="130" cy="195" rx="62" ry="18" stroke="url(#n-rip)" stroke-width="5.5" fill="none" opacity="0.7"/>
-        <ellipse cx="130" cy="195" rx="36" ry="10.5" stroke="url(#n-rip)" stroke-width="5.5" fill="none" opacity="0.9"/>
-        <path d="M114 5 L114 108 L82 108 L130 195 L178 108 L146 108 L146 5 Z" fill="url(#n-arrow)"/>
-      </svg>
+      <img src="assets/logo.svg" alt="Ripple Import logo">
       Ripple Import
     </a>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <label for="nav-toggle" class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></label>
     <div class="nav-links">
       <a href="./">Home</a>
       <a href="privacy.html">Privacy</a>
       <a href="terms.html">Terms</a>
+      <a href="https://monday.com/marketplace" class="nav-cta"><span class="cta-full">Install on monday.com</span><span class="cta-short">Install</span></a>
     </div>
   </nav>
 
   <div class="legal">
-    <h1>How to Use Ripple Import</h1>
-    <p class="updated">Get started in minutes — no configuration needed.</p>
+    <div class="legal-card">
+      <h1>How to Use Ripple Import</h1>
+      <p class="updated">Get started in minutes — no configuration needed.</p>
 
-    <h2>Installation</h2>
-    <p>Install Ripple Import from the monday.com marketplace. Once installed, add it to any board as a <strong>Board View</strong>:</p>
-    <ul>
-      <li>Open your board</li>
-      <li>Click the <strong>+</strong> button next to your existing views (Main Table, Chart, etc.)</li>
-      <li>Search for <strong>Ripple Import</strong></li>
-      <li>Click to add it as a view</li>
-    </ul>
+      <h2>Installation</h2>
+      <p>Install Ripple Import from the monday.com marketplace. Once installed, add it to any board as a <strong>Board View</strong>:</p>
+      <ul>
+        <li>Open your board</li>
+        <li>Click the <strong>+</strong> button next to your existing views (Main Table, Chart, etc.)</li>
+        <li>Search for <strong>Ripple Import</strong></li>
+        <li>Click to add it as a view</li>
+      </ul>
 
-    <h2>Step 1 — Upload your file</h2>
-    <p>Drag and drop a CSV or Excel file onto the upload area, or click to browse. Multi-sheet Excel workbooks are supported — you'll be able to choose which sheet to import.</p>
-    <p><strong>Don't have a file ready?</strong> Click <strong>Download Template</strong> to get a CSV or Excel file that matches your board's columns. Fill it in with your data and upload it.</p>
+      <h2>Step 1 — Upload your file</h2>
+      <p>Drag and drop a CSV or Excel file onto the upload area, or click to browse. Multi-sheet Excel workbooks are supported — you'll be able to choose which sheet to import.</p>
+      <p><strong>Don't have a file ready?</strong> Click <strong>Download Template</strong> to get a CSV or Excel file that matches your board's columns. Fill it in with your data and upload it.</p>
 
-    <h2>Step 2 — Map and preview</h2>
-    <p>Ripple Import automatically matches your file's columns to your board's columns by name and type. You can:</p>
-    <ul>
-      <li><strong>Adjust mappings</strong> — change which board column each file column maps to</li>
-      <li><strong>Skip columns</strong> — set any column to "Skip" if you don't want to import it</li>
-      <li><strong>Auto-create columns</strong> — if your file has columns that don't exist on the board, Ripple Import can create them for you</li>
-      <li><strong>Choose a target group</strong> — pick which group on your board the items should be added to</li>
-    </ul>
+      <h2>Step 2 — Map and preview</h2>
+      <p>Ripple Import automatically matches your file's columns to your board's columns by name and type. You can:</p>
+      <ul>
+        <li><strong>Adjust mappings</strong> — change which board column each file column maps to</li>
+        <li><strong>Skip columns</strong> — set any column to "Skip" if you don't want to import it</li>
+        <li><strong>Auto-create columns</strong> — if your file has columns that don't exist on the board, Ripple Import can create them for you</li>
+        <li><strong>Choose a target group</strong> — pick which group on your board the items should be added to</li>
+      </ul>
 
-    <h2>Importing with subitems</h2>
-    <p>Ripple Import can automatically detect parent-child relationships in your data. Three detection modes are available:</p>
-    <ul>
-      <li><strong>Type / Level column</strong> — a column in your file that indicates whether each row is a parent or subitem (e.g., "Parent" / "Subitem", or level numbers 0, 1, 2)</li>
-      <li><strong>Indentation</strong> — subitems are indented with spaces or tabs in the item name column</li>
-      <li><strong>Parent reference</strong> — a column that contains the name of each row's parent item</li>
-    </ul>
-    <p>You can also add subitems to an existing item on your board. Select <strong>"Add subitems to existing item"</strong> and pick the parent from the dropdown.</p>
+      <h2>Importing with subitems</h2>
+      <p>Ripple Import can automatically detect parent-child relationships in your data. Three detection modes are available:</p>
+      <ul>
+        <li><strong>Type / Level column</strong> — a column in your file that indicates whether each row is a parent or subitem (e.g., "Parent" / "Subitem", or level numbers 0, 1, 2)</li>
+        <li><strong>Indentation</strong> — subitems are indented with spaces or tabs in the item name column</li>
+        <li><strong>Parent reference</strong> — a column that contains the name of each row's parent item</li>
+      </ul>
+      <p>You can also add subitems to an existing item on your board. Select <strong>"Add subitems to existing item"</strong> and pick the parent from the dropdown.</p>
 
-    <h2>Multi-level boards</h2>
-    <p>If your board is a multi-level board, Ripple Import automatically detects this and adapts the entire experience. Multi-level boards support up to 5 levels of nesting (Level 0 through Level 4). You can:</p>
-    <ul>
-      <li>Import items with multiple levels of hierarchy in a single upload</li>
-      <li>Add children to any existing item at any depth</li>
-      <li>Download templates with level indicators</li>
-    </ul>
-    <p>All columns are shared across every level on multi-level boards — no separate column assignment is needed.</p>
+      <h2>Multi-level boards</h2>
+      <p>If your board is a multi-level board, Ripple Import automatically detects this and adapts the entire experience. Multi-level boards support up to 5 levels of nesting (Level 0 through Level 4). You can:</p>
+      <ul>
+        <li>Import items with multiple levels of hierarchy in a single upload</li>
+        <li>Add children to any existing item at any depth</li>
+        <li>Download templates with level indicators</li>
+      </ul>
+      <p>All columns are shared across every level on multi-level boards — no separate column assignment is needed.</p>
 
-    <h2>Step 3 — Import</h2>
-    <p>Click <strong>Import</strong> and Ripple Import creates the items on your board. You'll see real-time progress showing how many items have been created. When it's done, you'll see a summary with counts for items created, subitems, any skipped duplicates, and any errors.</p>
+      <h2>Step 3 — Import</h2>
+      <p>Click <strong>Import</strong> and Ripple Import creates the items on your board. You'll see real-time progress showing how many items have been created. When it's done, you'll see a summary with counts for items created, subitems, any skipped duplicates, and any errors.</p>
 
-    <h2>Duplicate detection</h2>
-    <p>If your board already has items with the same names as rows in your file, Ripple Import can skip them automatically. Select <strong>"Skip duplicates"</strong> in the mapping step to avoid creating duplicate items.</p>
+      <h2>Duplicate detection</h2>
+      <p>If your board already has items with the same names as rows in your file, Ripple Import can skip them automatically. Select <strong>"Skip duplicates"</strong> in the mapping step to avoid creating duplicate items.</p>
 
-    <h2>Header hint tags</h2>
-    <p>For advanced control, you can add tags to your file's column headers to specify the column type:</p>
-    <ul>
-      <li><code>[status] Priority</code> — maps to a Status column</li>
-      <li><code>[date] Due Date</code> — maps to a Date column</li>
-      <li><code>[numbers] Budget</code> — maps to a Numbers column</li>
-      <li><code>[email] Contact</code> — maps to an Email column</li>
-    </ul>
-    <p>Tags are optional — Ripple Import auto-detects column types when no tags are provided.</p>
+      <h2>Header hint tags</h2>
+      <p>For advanced control, you can add tags to your file's column headers to specify the column type:</p>
+      <ul>
+        <li><code>[status] Priority</code> — maps to a Status column</li>
+        <li><code>[date] Due Date</code> — maps to a Date column</li>
+        <li><code>[numbers] Budget</code> — maps to a Numbers column</li>
+        <li><code>[email] Contact</code> — maps to an Email column</li>
+      </ul>
+      <p>Tags are optional — Ripple Import auto-detects column types when no tags are provided.</p>
 
-    <h2>Import to a new board</h2>
-    <p>Select <strong>"Start fresh from file"</strong> to create a brand new board from your file. Ripple Import will create the board with columns matching your file and import all data into it.</p>
+      <h2>Import to a new board</h2>
+      <p>Select <strong>"Start fresh from file"</strong> to create a brand new board from your file. Ripple Import will create the board with columns matching your file and import all data into it.</p>
 
-    <h2>Need help?</h2>
-    <p>Contact us at <a href="mailto:support@coderipple.tech">support@coderipple.tech</a> and we'll get back to you as soon as possible.</p>
+      <h2>Need help?</h2>
+      <p>Contact us at <a href="mailto:support@coderippletech.com">support@coderippletech.com</a> and we'll get back to you as soon as possible.</p>
+    </div>
   </div>
 
   <footer class="footer">
     <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="assets/logo.svg" alt="Ripple Import">
+        Ripple Import
+      </div>
       <div class="footer-links">
         <a href="./">Home</a>
         <a href="guide.html">Guide</a>
         <a href="privacy.html">Privacy Policy</a>
         <a href="terms.html">Terms of Service</a>
+        <a href="mailto:support@coderippletech.com">Contact</a>
       </div>
       <div class="footer-copy">&copy; 2026 Coderipple Tech Ltd. All rights reserved.</div>
     </div>
