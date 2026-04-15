@@ -88,6 +88,16 @@
       <h2>Import to a new board</h2>
       <p>Select <strong>"Start fresh from file"</strong> to create a brand new board from your file. Ripple Import will create the board with columns matching your file and import all data into it.</p>
 
+      <h2>Board column limits</h2>
+      <p>monday boards currently support up to <strong>500 columns per board</strong>. Ripple Import checks your mapping against this limit <em>before</em> the import starts, so you won't end up half-finished with a validation error from monday's API.</p>
+      <ul>
+        <li><strong>Importing into an existing board</strong> — the app counts the board's current columns plus any new ones your mapping would create. Columns you're reusing aren't double-counted.</li>
+        <li><strong>Importing into a new board</strong> — the app counts the default columns plus every column that would be created from your file.</li>
+      </ul>
+      <p>If your mapping would exceed the limit, the Preview step shows a clear <strong>"Column limit exceeded"</strong> message with the projected total, and the <strong>Start Import</strong> button stays disabled until you skip or consolidate enough columns to fit.</p>
+      <p><strong>Smart fallback:</strong> if importing into the current board would go over the limit but a new board would fit (or the other way around), Ripple Import suggests the alternative with a one-click switch, so you don't have to reconfigure everything manually.</p>
+      <p>You can read more about monday's column limits in <a href="https://support.monday.com/hc/en-us/articles/115005310945-The-basics-of-columns" target="_blank" rel="noopener">The basics of columns</a>.</p>
+
       <h2>Need help?</h2>
       <p>Contact us at <a href="mailto:support@coderippletech.com">support@coderippletech.com</a> and we'll get back to you as soon as possible.</p>
     </div>
