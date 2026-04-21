@@ -166,6 +166,14 @@
         <h2>Simple, transparent pricing</h2>
         <p>All features included on every plan. Only the import volume differs.</p>
       </div>
+
+      <div class="billing-toggle" role="tablist" aria-label="Billing period">
+        <button type="button" class="billing-option active" data-period="monthly" role="tab" aria-selected="true">Monthly</button>
+        <button type="button" class="billing-option" data-period="yearly" role="tab" aria-selected="false">
+          Yearly <span class="billing-save">Save 20%</span>
+        </button>
+      </div>
+
       <div class="pricing-grid">
 
         <div class="pricing-card">
@@ -181,8 +189,8 @@
         <div class="pricing-card popular">
           <div class="pricing-badge">Most Popular</div>
           <h3>Pro</h3>
-          <div class="pricing-amount">$9.99</div>
-          <div class="pricing-period">per account / month</div>
+          <div class="pricing-amount" data-monthly="$10" data-yearly="$96">$10</div>
+          <div class="pricing-period" data-monthly="per account / month" data-yearly="per account / year">per account / month</div>
           <div class="pricing-feature"><span class="check">&#10003;</span> 100 imports per month</div>
           <div class="pricing-feature"><span class="check">&#10003;</span> All features included</div>
           <div class="pricing-feature"><span class="check">&#10003;</span> CSV &amp; Excel support</div>
@@ -191,8 +199,8 @@
 
         <div class="pricing-card">
           <h3>Business</h3>
-          <div class="pricing-amount">$19.99</div>
-          <div class="pricing-period">per account / month</div>
+          <div class="pricing-amount" data-monthly="$20" data-yearly="$192">$20</div>
+          <div class="pricing-period" data-monthly="per account / month" data-yearly="per account / year">per account / month</div>
           <div class="pricing-feature"><span class="check">&#10003;</span> Unlimited imports</div>
           <div class="pricing-feature"><span class="check">&#10003;</span> All features included</div>
           <div class="pricing-feature"><span class="check">&#10003;</span> CSV &amp; Excel support</div>
@@ -202,6 +210,28 @@
       </div>
     </div>
   </section>
+
+  <script>
+    (function () {
+      var options = document.querySelectorAll('.billing-option');
+      options.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var period = btn.getAttribute('data-period');
+          options.forEach(function (b) {
+            var active = b === btn;
+            b.classList.toggle('active', active);
+            b.setAttribute('aria-selected', active ? 'true' : 'false');
+          });
+          document.querySelectorAll('.pricing-amount[data-monthly]').forEach(function (el) {
+            el.textContent = el.getAttribute('data-' + period);
+          });
+          document.querySelectorAll('.pricing-period[data-monthly]').forEach(function (el) {
+            el.textContent = el.getAttribute('data-' + period);
+          });
+        });
+      });
+    })();
+  </script>
 
   <!-- CTA banner -->
   <div class="cta-banner">
