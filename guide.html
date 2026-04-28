@@ -72,8 +72,27 @@
       <h2>Step 3 — Import</h2>
       <p>Click <strong>Import</strong> and Ripple Import creates the items on your board. You'll see real-time progress showing how many items have been created. When it's done, you'll see a summary with counts for items created, subitems, any skipped duplicates, and any errors.</p>
 
-      <h2>Duplicate detection</h2>
-      <p>If your board already has items with the same names as rows in your file, Ripple Import can skip them automatically. Select <strong>"Skip duplicates"</strong> in the mapping step to avoid creating duplicate items.</p>
+      <h2>Export your board data</h2>
+      <p>Need to edit existing items in bulk? Export the current board as a CSV or Excel file, change what you need offline, then re-upload to apply the changes.</p>
+      <ul>
+        <li>On the upload step, choose a group from the <strong>Export</strong> dropdown (or "All groups" for everything) and click <strong>CSV</strong> or <strong>Excel</strong>.</li>
+        <li>The exported file mirrors your board: every column on the board becomes a column in the file, and every item becomes a row with its current values.</li>
+        <li>An <strong>Item ID</strong> column is included as the first column. This is what makes round-trip updates reliable — keep it intact when editing.</li>
+      </ul>
+
+      <h2>Update existing items</h2>
+      <p>When you re-import a file, Ripple Import can update existing items in place instead of creating duplicates. In the Preview step, pick <strong>"Update existing"</strong> in the duplicate-handling section.</p>
+      <p>You can choose <strong>how rows are matched to existing items</strong> with the "Match rows by" dropdown:</p>
+      <ul>
+        <li><strong>Item ID</strong> (auto-detected) &mdash; the most reliable option. If your file came from the Export feature, the Item ID column is already there and matching is automatic. IDs survive renames, group moves, and column changes.</li>
+        <li><strong>Item Name</strong> &mdash; default fallback when there's no Item ID column. Case-insensitive, whitespace-trimmed. Less reliable if items share names or have been renamed.</li>
+        <li><strong>Any other column you've mapped</strong> &mdash; for example, match by Email, Order ID, or any unique identifier already on the board. Pick the column from the dropdown and Ripple Import will look it up against the corresponding board column.</li>
+      </ul>
+      <p>Rows that match existing items get their column values refreshed (and renamed, if the name changed). Rows with no match get created as new items in the same import &mdash; so a single re-import can both update and add.</p>
+      <p>Stale Item IDs (items deleted since export), in-file duplicate IDs, and update failures are surfaced on the Done screen with row-level details, never silently skipped.</p>
+
+      <h2>Skip duplicates</h2>
+      <p>If you'd rather not update or create new entries when names already exist on the board, pick <strong>"Skip duplicates"</strong> instead. Matching rows are left alone, only new items get added.</p>
 
       <h2>Header hint tags</h2>
       <p>For advanced control, you can add tags to your file's column headers to specify the column type:</p>
