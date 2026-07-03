@@ -101,8 +101,10 @@ img { max-width: 100%; display: block; }
 .eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
   font-size: 12.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--accent); background: var(--accent-soft);
-  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  color: color-mix(in srgb, var(--accent) 55%, white);
+  background: color-mix(in srgb, var(--bg) 65%, transparent);
+  backdrop-filter: blur(8px);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
   padding: 6px 14px; border-radius: 999px; margin-bottom: 22px;
 }
 .eyebrow.purple { color: #a99bff; background: var(--purple-soft); border-color: rgba(125, 102, 253, 0.3); }
