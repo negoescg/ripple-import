@@ -48,6 +48,11 @@ img { max-width: 100%; display: block; }
 .snav-brand img { width: 26px; height: 26px; border-radius: 7px; }
 .snav-links { display: flex; align-items: center; gap: clamp(12px, 2.5vw, 28px); font-size: 14px; color: var(--muted); }
 .snav-links a:hover { color: var(--text); }
+@media (max-width: 720px) {
+  /* keep brand + CTA on small screens; section anchors are reachable by scrolling */
+  .snav-links a:not(.btn) { display: none; }
+  .snav-brand span { display: none; }
+}
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 10px 18px; border-radius: 10px; font-size: 14px; font-weight: 600;
@@ -180,6 +185,58 @@ h1.display {
 @keyframes scroll { to { transform: translateX(-50%); } }
 .mlogo { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 14px; font-weight: 600; white-space: nowrap; }
 .mlogo svg { width: 20px; height: 20px; }
+
+/* ---- numbered steps ---- */
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+.step {
+  border: 1px solid var(--card-border); border-radius: var(--radius);
+  background: var(--card); padding: 26px;
+}
+.step-num {
+  width: 34px; height: 34px; display: grid; place-items: center;
+  border-radius: 50%; background: var(--accent-soft); color: var(--accent);
+  font-weight: 700; font-size: 15px; margin-bottom: 14px;
+}
+.step h4 { font-size: 16px; margin-bottom: 6px; letter-spacing: -0.01em; }
+.step p { font-size: 13.5px; color: var(--muted); }
+
+/* ---- pricing ---- */
+.billing-toggle {
+  display: inline-flex; gap: 4px; padding: 4px;
+  border: 1px solid var(--card-border); border-radius: 999px; background: var(--card);
+}
+.billing-toggle button {
+  border: 0; background: transparent; color: var(--muted); cursor: pointer;
+  font: 600 13.5px var(--font); padding: 8px 18px; border-radius: 999px;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.billing-toggle button.active { background: var(--accent-soft); color: var(--accent); }
+.billing-save {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  background: color-mix(in srgb, var(--accent) 22%, transparent); color: var(--accent);
+  padding: 2px 8px; border-radius: 999px;
+}
+.pricing { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; max-width: 920px; margin: 0 auto; }
+.price-card {
+  position: relative; border: 1px solid var(--card-border); border-radius: var(--radius);
+  background: var(--card); padding: 30px 28px;
+}
+.price-card.popular {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow: 0 18px 60px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.price-badge {
+  position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  background: var(--accent); color: var(--bg); padding: 3px 12px; border-radius: 999px; white-space: nowrap;
+}
+.price-card h3 { font-size: 15px; font-weight: 600; color: var(--muted); }
+.price-amount { font-size: 38px; font-weight: 800; letter-spacing: -0.02em; margin: 8px 0 0; }
+.price-period { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+.price-list { list-style: none; display: grid; gap: 8px; }
+.price-list li { display: flex; gap: 10px; align-items: baseline; color: var(--muted); font-size: 14px; }
+.price-list li::before { content: "✓"; color: var(--accent); font-weight: 700; }
 
 /* ---- CTA band ---- */
 .cta-band {

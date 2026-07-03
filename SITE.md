@@ -11,7 +11,7 @@ Static site, no build step. Served by Cloudflare Pages (project
 /ripple-import/      product page
 /_template/product/  copy-me skeleton for the next product
 site.css             shared design system (dark, Inter, accent variables)
-style.css            legacy stylesheet for the old Ripple Import page + guide
+style.css            legacy stylesheet for the guide page only
 assets/              logos, screenshots (shot-<slug>*.png)
 ```
 
