@@ -9,6 +9,7 @@ Static site, no build step. Served by Cloudflare Pages (project
 /                    index.html — company page, one card per product
 /ripplebug/          product page (+ /ripplebug/privacy/)
 /ripple-import/      product page
+/ripple-preview/     product page (Umbraco package — CTAs go to NuGet/GitHub)
 /_template/product/  copy-me skeleton for the next product
 site.css             shared design system (dark, Inter, accent variables)
 style.css            legacy stylesheet for the guide page only
@@ -25,7 +26,7 @@ array in the association JSON.
 1. Copy `_template/product/` to `/<slug>/` and fill in the `{{ }}` markers.
 2. Pick the accent color in the `<style>` block at the top of the page —
    that one variable re-skins buttons, icons, gradients, everything.
-   Taken: teal (Ripplebug), purple (Ripple Import).
+   Taken: teal (Ripplebug), purple (Ripple Import), sky (Ripple Preview).
 3. Drop the product logo at `assets/<slug>-logo.png` and screenshots at
    `assets/shot-<slug>*.png`. Real screenshots beat mockups.
 4. Add a product card to the grid in `index.html` (copy an existing one,
