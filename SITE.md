@@ -33,7 +33,10 @@ array in the association JSON.
    swap the copy, logo, link, and give the card its own hover class if you
    want a tinted glow).
 5. If it needs a privacy page: copy `/ripplebug/privacy/index.html`.
-6. Push. The GitHub Action deploys to Cloudflare Pages automatically.
+6. SEO: add the page to `sitemap.xml` and `llms.txt`; render an OG image
+   (1200×630, match `assets/og-*.png` style) and add the canonical + OG +
+   JSON-LD block to the page head (copy from an existing product page).
+7. Push. The GitHub Action deploys to Cloudflare Pages automatically.
 
 ## Editing site.css
 

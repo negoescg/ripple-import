@@ -1,0 +1,8 @@
+# coderippletech.com — all crawlers welcome, including AI crawlers
+# (GPTBot, ClaudeBot, PerplexityBot, Google-Extended and friends).
+# Machine-readable site summary for AI agents: /llms.txt
+
+User-agent: *
+Allow: /
+
+Sitemap: https://coderippletech.com/sitemap.xml
