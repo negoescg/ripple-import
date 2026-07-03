@@ -53,6 +53,17 @@ img { max-width: 100%; display: block; }
   .snav-links a:not(.btn) { display: none; }
   .snav-brand span { display: none; }
 }
+@media (max-width: 420px) {
+  .snav { padding: 12px 14px; gap: 10px; }
+  .snav-brand { font-size: 15px; white-space: nowrap; }
+  .snav .btn { padding: 8px 12px; font-size: 13px; white-space: nowrap; }
+}
+/* long CTA labels: .cta-full shows normally, .cta-short takes over on tiny screens */
+.cta-short { display: none; }
+@media (max-width: 420px) {
+  .cta-full { display: none; }
+  .cta-short { display: inline; }
+}
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 10px 18px; border-radius: 10px; font-size: 14px; font-weight: 600;
