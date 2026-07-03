@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--
+  PRODUCT PAGE TEMPLATE — copy this folder to /<product-slug>/ and fill in.
+  Search for {{ }} placeholders. Delete sections you don't need, keep the order:
+  hero → proof strip → big screenshot → features → split rows → CTA band.
+  Pick ONE accent color in the <style> block below; everything re-skins itself.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{PRODUCT}} — {{ONE_LINE_PROMISE}}</title>
+  <meta name="description" content="{{META_DESCRIPTION_UNDER_160_CHARS}}">
+  <link rel="icon" href="/assets/{{PRODUCT_SLUG}}-logo.png">
+  <link rel="stylesheet" href="/site.css">
+  <style>
+    /* Product accent — the only styling a new product needs.
+       Ripplebug uses teal, Ripple Import purple. Pick something distinct:
+       amber #f5a623, rose #fb5f8a, lime #a3e635, sky #38bdf8 … */
+    :root {
+      --accent: #f5a623;
+      --accent-soft: rgba(245, 166, 35, 0.14);
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="snav">
+    <a href="/{{PRODUCT_SLUG}}/" class="snav-brand">
+      <img src="/assets/{{PRODUCT_SLUG}}-logo.png" alt="">
+      {{PRODUCT}}
+      <span style="font-size:11px;color:var(--muted);font-weight:500;">by CodeRipple Tech</span>
+    </a>
+    <div class="snav-links">
+      <a href="#features">Features</a>
+      <a class="btn btn-teal" href="{{PRIMARY_CTA_URL}}">{{PRIMARY_CTA}}</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="orb orb-teal"></div>
+    <div class="orb orb-purple"></div>
+    <span class="eyebrow">{{CATEGORY_EYEBROW}}</span>
+    <h1 class="display">{{HEADLINE_LINE_1}}<br><span class="grad-teal">{{HEADLINE_LINE_2}}</span></h1>
+    <p class="lede">{{TWO_SENTENCES_ON_THE_PAIN_AND_THE_FIX}}</p>
+    <div class="hero-ctas">
+      <a class="btn btn-teal" href="{{PRIMARY_CTA_URL}}">{{PRIMARY_CTA}}</a>
+      <a class="btn btn-ghost" href="{{SECONDARY_CTA_URL}}">{{SECONDARY_CTA}}</a>
+    </div>
+    <div class="hero-note">{{TRUST_LINE — free plan, no card, data stays yours…}}</div>
+  </header>
+
+  <main class="wrap">
+
+    <section class="section" style="padding-top:12px;">
+      <div class="browser reveal">
+        <div class="browser-bar"><span></span><span></span><span></span><div class="url">{{APP_URL}}</div></div>
+        <img src="/assets/shot-{{PRODUCT_SLUG}}.png" alt="{{PRODUCT}} screenshot">
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="section-head reveal">
+        <h2>{{FEATURES_HEADLINE}}</h2>
+        <p>{{FEATURES_SUBLINE}}</p>
+      </div>
+      <div class="features">
+        <!-- six of these; icons: copy an SVG from /ripplebug/index.html -->
+        <div class="feature reveal">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <h4>{{FEATURE_TITLE}}</h4>
+          <p>{{FEATURE_TEXT_TWO_SHORT_SENTENCES}}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="split">
+        <div class="split-copy reveal">
+          <h3>{{BENEFIT_HEADLINE}}</h3>
+          <p>{{BENEFIT_PARAGRAPH}}</p>
+          <ul>
+            <li>{{PROOF_POINT}}</li>
+            <li>{{PROOF_POINT}}</li>
+            <li>{{PROOF_POINT}}</li>
+          </ul>
+        </div>
+        <div class="browser reveal">
+          <div class="browser-bar"><span></span><span></span><span></span><div class="url">{{APP_URL}}</div></div>
+          <img src="/assets/shot-{{PRODUCT_SLUG}}-2.png" alt="">
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="cta-band reveal">
+        <h2>{{CLOSING_LINE}}</h2>
+        <p>{{CLOSING_SUBLINE}}</p>
+        <a class="btn btn-teal" href="{{PRIMARY_CTA_URL}}">{{PRIMARY_CTA}}</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="sfooter">
+    <span>© 2026 CodeRipple Tech</span>
+    <div class="cols">
+      <a href="/">CodeRipple Tech</a>
+      <a href="/{{PRODUCT_SLUG}}/privacy/">Privacy</a>
+      <a href="mailto:dan.negoescu4@gmail.com">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    const io = new IntersectionObserver((es) => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    }), { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
