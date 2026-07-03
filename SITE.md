@@ -34,6 +34,13 @@ array in the association JSON.
 5. If it needs a privacy page: copy `/ripplebug/privacy/index.html`.
 6. Push. The GitHub Action deploys to Cloudflare Pages automatically.
 
+## Editing site.css
+
+Cloudflare Pages caches CSS in browsers for 4 hours. Every page links
+the stylesheet as `site.css?v=N` — when you change site.css, bump the
+`?v=` number in all pages (grep for `site.css?v=`), or returning
+visitors get the old styles with the new markup.
+
 ## Writing style
 
 Short declarative sentences. Say the pain, then the fix. Avoid em-dash
