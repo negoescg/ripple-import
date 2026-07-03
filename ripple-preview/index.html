@@ -6,7 +6,7 @@
   <title>Ripple Preview — See your actual pages while you edit them</title>
   <meta name="description" content="Real block previews for the Umbraco backoffice. Every block renders through your site's own views, styles and scripts — and stays fully editable. Free and open source.">
   <link rel="icon" type="image/svg+xml" href="/assets/ripple-preview-logo.svg">
-  <link rel="stylesheet" href="/site.css?v=4">
+  <link rel="stylesheet" href="/site.css?v=5">
   <style>
     /* Ripple Preview accent: sky */
     :root {
@@ -18,11 +18,13 @@
 <body>
 
   <nav class="snav">
-    <a href="/ripple-preview/" class="snav-brand">
-      <img src="/assets/ripple-preview-logo.svg" alt="">
-      Ripple Preview
-      <span style="font-size:11px;color:var(--muted);font-weight:500;">by CodeRipple Tech</span>
-    </a>
+    <div class="snav-brand">
+      <a class="snav-brand-main" href="/ripple-preview/">
+        <img src="/assets/ripple-preview-logo.svg" alt="">
+        Ripple Preview
+      </a>
+      <a class="snav-by" href="/">by CodeRipple Tech</a>
+    </div>
     <div class="snav-links">
       <a href="#features">Features</a>
       <a href="#setup">Setup</a>

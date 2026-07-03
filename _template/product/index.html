@@ -12,7 +12,7 @@
   <title>{{PRODUCT}} — {{ONE_LINE_PROMISE}}</title>
   <meta name="description" content="{{META_DESCRIPTION_UNDER_160_CHARS}}">
   <link rel="icon" href="/assets/{{PRODUCT_SLUG}}-logo.png">
-  <link rel="stylesheet" href="/site.css?v=4">
+  <link rel="stylesheet" href="/site.css?v=5">
   <style>
     /* Product accent — the only styling a new product needs.
        Ripplebug uses teal, Ripple Import purple. Pick something distinct:
@@ -26,11 +26,13 @@
 <body>
 
   <nav class="snav">
-    <a href="/{{PRODUCT_SLUG}}/" class="snav-brand">
-      <img src="/assets/{{PRODUCT_SLUG}}-logo.png" alt="">
-      {{PRODUCT}}
-      <span style="font-size:11px;color:var(--muted);font-weight:500;">by CodeRipple Tech</span>
-    </a>
+    <div class="snav-brand">
+      <a class="snav-brand-main" href="/{{PRODUCT_SLUG}}/">
+        <img src="/assets/{{PRODUCT_SLUG}}-logo.png" alt="">
+        {{PRODUCT}}
+      </a>
+      <a class="snav-by" href="/">by CodeRipple Tech</a>
+    </div>
     <div class="snav-links">
       <a href="#features">Features</a>
       <a class="btn btn-teal" href="{{PRIMARY_CTA_URL}}">{{PRIMARY_CTA}}</a>
