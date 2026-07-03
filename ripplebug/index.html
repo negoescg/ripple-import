@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ripplebug — Every bug, captured whole.</title>
+  <meta name="description" content="One click captures the screenshot, screen recording, console and network — then files the bug to Azure DevOps, GitHub, Jira, Linear, GitLab or Trello, or straight onto your live triage board.">
+  <link rel="icon" type="image/png" href="/assets/ripplebug-logo.png">
+  <link rel="stylesheet" href="/site.css">
+</head>
+<body>
+
+  <nav class="snav">
+    <a href="/" class="snav-brand">
+      <img src="/assets/ripplebug-logo.png" alt="">
+      Ripplebug
+      <span style="font-size:11px;color:var(--muted);font-weight:500;">by CodeRipple Tech</span>
+    </a>
+    <div class="snav-links">
+      <a href="#capture">Capture</a>
+      <a href="#board">Board</a>
+      <a href="#guests">Guest reports</a>
+      <a class="btn btn-teal" href="https://chromewebstore.google.com/detail/ripplebug/hgbejokcghdecljpjgbniplicahlfaan">Add to Chrome</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="orb orb-teal"></div>
+    <div class="orb orb-purple"></div>
+    <span class="eyebrow">Chrome &amp; Edge extension + live board</span>
+    <h1 class="display">Every bug,<br><span class="grad-teal">captured whole.</span></h1>
+    <p class="lede">Stop writing bug reports nobody can reproduce. One click captures the
+    screenshot, the screen recording, the console and the network, then files a complete
+    ticket wherever your team tracks work.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-teal" href="https://chromewebstore.google.com/detail/ripplebug/hgbejokcghdecljpjgbniplicahlfaan">Add to Chrome — free</a>
+      <a class="btn btn-ghost" href="https://board.coderippletech.com">Create a free board</a>
+    </div>
+    <div class="hero-note">Free to install. Your tracker tokens never leave your browser.</div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- trackers marquee -->
+    <section class="section" style="padding-top:0;">
+      <div class="section-head reveal" style="margin-bottom:26px;">
+        <p style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;">One report. Seven destinations.</p>
+      </div>
+      <div class="marquee reveal" aria-hidden="true">
+        <div class="marquee-track">
+          <!-- set repeats twice for the infinite loop -->
+          <span class="mlogo"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M15 3.6v8.6l-3.5 2.9-5.5-2v2l-3.1-4 9-.7V4.3L15 3.6zM12 4.4 6.9 1.3v2L2.2 4.7 1 6.2v3.9l2 .9V6.3L12 4.4z"/></svg>Azure DevOps</span>
+          <span class="mlogo"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</span>
+          <span class="mlogo"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M15.6 7.5 8.9.8 8.3.2 3.2 5.3.9 7.5a.7.7 0 0 0 0 1l4.7 4.6 2.7 2.7 5.1-5 .1-.1 2.1-2.2a.7.7 0 0 0 0-1zM8.3 10.3 5.9 8l2.4-2.3L10.6 8l-2.3 2.3z"/></svg>Jira</span>
+          <span class="mlogo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.886 4.18A11.982 11.982 0 0 1 11.99 0C18.624 0 24 5.376 24 12.01c0 3.64-1.62 6.903-4.18 9.105L2.886 4.18ZM1.817 5.626l16.556 16.556c-.524.33-1.075.62-1.65.866L.951 7.277c.246-.575.537-1.126.866-1.65ZM.322 9.163l14.515 14.515c-.71.172-1.443.28-2.195.313L.008 11.358a12.01 12.01 0 0 1 .314-2.195Zm-.19 4.928 9.777 9.777c-4.997-.97-8.806-4.78-9.777-9.777Z"/></svg>Linear</span>
+          <span class="mlogo"><svg viewBox="0 0 16 16" fill="currentColor"><path d="m15.7 9.2-.7-2.1-1.4-4.3c-.1-.2-.4-.2-.5 0L11.8 7H4.2L2.9 2.8c-.1-.2-.4-.2-.5 0L1 7l-.7 2.2c-.1.2 0 .4.2.5L8 14.9l7.5-5.2c.2-.1.3-.3.2-.5z"/></svg>GitLab</span>
+          <span class="mlogo"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM7 11.5a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v8zm6-4a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4z"/></svg>Trello</span>
+          <span class="mlogo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5.04 15.16a2.52 2.52 0 1 1-2.52-2.52h2.52v2.52zm1.27 0a2.52 2.52 0 0 1 5.04 0v6.32a2.52 2.52 0 1 1-5.04 0v-6.32zM8.83 5.04a2.52 2.52 0 1 1 2.52-2.52v2.52H8.83zm0 1.27a2.52 2.52 0 0 1 0 5.04H2.52a2.52 2.52 0 1 1 0-5.04h6.31zm10.13 2.52a2.52 2.52 0 1 1 2.52 2.52h-2.52V8.83zm-1.27 0a2.52 2.52 0 0 1-5.04 0V2.52a2.52 2.52 0 1 1 5.04 0v6.31zm-2.52 10.13a2.52 2.52 0 1 1-2.52 2.52v-2.52h2.52zm0-1.27a2.52 2.52 0 0 1 0-5.04h6.32a2.52 2.52 0 1 1 0 5.04h-6.32z"/></svg>Slack</span>
+          <span class="mlogo"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M9.5 1.5a2 2 0 1 1-.001 4.001A2 2 0 0 1 9.5 1.5zm4 1.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zM1 5h7a1 1 0 0 1 1 1v.5h3.5a.5.5 0 0 1 .5.5v3.5a3 3 0 0 1-3 3h-.55A3.5 3.5 0 0 1 6 15.5 3.5 3.5 0 0 1 2.55 12H2a1 1 0 0 1-1-1V5zm12.5 2.5H9V11c0 .35-.06.69-.17 1H10a2 2 0 0 0 2-2V7.5h1.5zM3.2 6.8v1h1.3v4h1.1v-4h1.3v-1H3.2z"/></svg>Teams</span>
+          <!-- repeat -->
+          <span class="mlogo"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M15 3.6v8.6l-3.5 2.9-5.5-2v2l-3.1-4 9-.7V4.3L15 3.6zM12 4.4 6.9 1.3v2L2.2 4.7 1 6.2v3.9l2 .9V6.3L12 4.4z"/></svg>Azure DevOps</span>
+          <span class="mlogo"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</span>
+          <span class="mlogo"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M15.6 7.5 8.9.8 8.3.2 3.2 5.3.9 7.5a.7.7 0 0 0 0 1l4.7 4.6 2.7 2.7 5.1-5 .1-.1 2.1-2.2a.7.7 0 0 0 0-1zM8.3 10.3 5.9 8l2.4-2.3L10.6 8l-2.3 2.3z"/></svg>Jira</span>
+          <span class="mlogo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.886 4.18A11.982 11.982 0 0 1 11.99 0C18.624 0 24 5.376 24 12.01c0 3.64-1.62 6.903-4.18 9.105L2.886 4.18ZM1.817 5.626l16.556 16.556c-.524.33-1.075.62-1.65.866L.951 7.277c.246-.575.537-1.126.866-1.65ZM.322 9.163l14.515 14.515c-.71.172-1.443.28-2.195.313L.008 11.358a12.01 12.01 0 0 1 .314-2.195Zm-.19 4.928 9.777 9.777c-4.997-.97-8.806-4.78-9.777-9.777Z"/></svg>Linear</span>
+          <span class="mlogo"><svg viewBox="0 0 16 16" fill="currentColor"><path d="m15.7 9.2-.7-2.1-1.4-4.3c-.1-.2-.4-.2-.5 0L11.8 7H4.2L2.9 2.8c-.1-.2-.4-.2-.5 0L1 7l-.7 2.2c-.1.2 0 .4.2.5L8 14.9l7.5-5.2c.2-.1.3-.3.2-.5z"/></svg>GitLab</span>
+          <span class="mlogo"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM7 11.5a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v8zm6-4a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4z"/></svg>Trello</span>
+          <span class="mlogo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5.04 15.16a2.52 2.52 0 1 1-2.52-2.52h2.52v2.52zm1.27 0a2.52 2.52 0 0 1 5.04 0v6.32a2.52 2.52 0 1 1-5.04 0v-6.32zM8.83 5.04a2.52 2.52 0 1 1 2.52-2.52v2.52H8.83zm0 1.27a2.52 2.52 0 0 1 0 5.04H2.52a2.52 2.52 0 1 1 0-5.04h6.31zm10.13 2.52a2.52 2.52 0 1 1 2.52 2.52h-2.52V8.83zm-1.27 0a2.52 2.52 0 0 1-5.04 0V2.52a2.52 2.52 0 1 1 5.04 0v6.31zm-2.52 10.13a2.52 2.52 0 1 1-2.52 2.52v-2.52h2.52zm0-1.27a2.52 2.52 0 0 1 0-5.04h6.32a2.52 2.52 0 1 1 0 5.04h-6.32z"/></svg>Slack</span>
+          <span class="mlogo"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M9.5 1.5a2 2 0 1 1-.001 4.001A2 2 0 0 1 9.5 1.5zm4 1.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zM1 5h7a1 1 0 0 1 1 1v.5h3.5a.5.5 0 0 1 .5.5v3.5a3 3 0 0 1-3 3h-.55A3.5 3.5 0 0 1 6 15.5 3.5 3.5 0 0 1 2.55 12H2a1 1 0 0 1-1-1V5zm12.5 2.5H9V11c0 .35-.06.69-.17 1H10a2 2 0 0 0 2-2V7.5h1.5zM3.2 6.8v1h1.3v4h1.1v-4h1.3v-1H3.2z"/></svg>Teams</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- board hero shot -->
+    <section class="section" id="board" style="padding-top:12px;">
+      <div class="browser reveal">
+        <div class="browser-bar"><span></span><span></span><span></span><div class="url">board.coderippletech.com</div></div>
+        <img src="/assets/shot-board.png" alt="The Ripplebug board — live kanban triage of captured bugs">
+      </div>
+    </section>
+
+    <!-- features -->
+    <section class="section" id="capture">
+      <div class="section-head reveal">
+        <h2>The whole story, attached automatically</h2>
+        <p>Every report carries what an engineer needs in order to fix it.</p>
+      </div>
+      <div class="features">
+        <div class="feature reveal">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <h4>One-click capture</h4>
+          <p>Screenshot on open, region crop, annotation with arrows, boxes and redaction. Record the tab or your screen for up to a minute.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></div>
+          <h4>Console + network, always</h4>
+          <p>The last 200 console messages and 100 requests ride along as a tidy Markdown file. No DevTools digging, no debugger banner.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></div>
+          <h4>Files where your team works</h4>
+          <p>Azure DevOps, GitHub, Jira, Linear, GitLab and Trello, each with its native fields. Slack and Teams get the summary.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5v11"/><path d="M12 5v6"/><path d="M18 5v14"/></svg></div>
+          <h4>A live triage board</h4>
+          <p>Every capture becomes a draggable card with columns, sub-groups, comments and archive. It updates in real time for everyone.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg></div>
+          <h4>Copy for AI</h4>
+          <p>Turn any capture into a paste-ready debugging prompt for Claude, Cursor, or any AI tool. Steps, console, network and environment included.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+          <h4>Your tokens stay yours</h4>
+          <p>Tracker credentials live in your browser, not on our servers. No analytics, no middleman.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- drawer split -->
+    <section class="section">
+      <div class="split">
+        <div class="split-copy reveal">
+          <h3>Open a card, see everything.</h3>
+          <p>The evidence, the repro steps, the console, plus a comment thread where
+          <strong>guests on a share link can reply</strong>. Ask for a retest and the
+          answer lands on the ticket instead of in a DM.</p>
+          <ul>
+            <li>Edit descriptions inline, paste images straight onto the card</li>
+            <li>Export to a tracker with one click, and the link badges back onto the card</li>
+            <li>Public share pages for anyone, no account needed</li>
+          </ul>
+        </div>
+        <div class="browser reveal">
+          <div class="browser-bar"><span></span><span></span><span></span><div class="url">board.coderippletech.com</div></div>
+          <img src="/assets/shot-drawer.png" alt="Ripplebug card drawer with evidence, console capture and comments">
+        </div>
+      </div>
+    </section>
+
+    <!-- guest intake split -->
+    <section class="section" id="guests">
+      <div class="split flip">
+        <div class="split-copy reveal">
+          <h3>Testers report through a link.<br>No install. No account.</h3>
+          <p>Send anyone your guest link. They describe the bug, paste screenshots with a
+          full annotation editor, and can even <strong>record their screen right in the
+          browser</strong>. Their browser and viewport details attach automatically.</p>
+          <ul>
+            <li>Reports land in your inbox in real time, tagged with who sent them</li>
+            <li>Rate limited and revocable, with one-click regeneration</li>
+            <li>Great for clients, QA rounds and beta testers</li>
+          </ul>
+        </div>
+        <div class="browser reveal">
+          <div class="browser-bar"><span></span><span></span><span></span><div class="url">board.coderippletech.com/r/…</div></div>
+          <img src="/assets/shot-intake.png" alt="Ripplebug guest report page with screen recording">
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section">
+      <div class="cta-band reveal">
+        <h2>Your next bug report takes one click.</h2>
+        <p>Free extension. Free board. Set up in two minutes.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-teal" href="https://chromewebstore.google.com/detail/ripplebug/hgbejokcghdecljpjgbniplicahlfaan">Add to Chrome</a>
+          <a class="btn btn-ghost" href="https://board.coderippletech.com">Create a free board</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="sfooter">
+    <span>© 2026 CodeRipple Tech</span>
+    <div class="cols">
+      <a href="/">CodeRipple Tech</a>
+      <a href="/ripplebug/privacy/">Privacy</a>
+      <a href="https://board.coderippletech.com">Board sign in</a>
+      <a href="mailto:dan.negoescu4@gmail.com">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    const io = new IntersectionObserver((es) => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    }), { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+  </script>
+</body>
+</html>

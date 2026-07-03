@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ripplebug — Privacy Policy</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="/assets/ripplebug-logo.png">
+  <link rel="stylesheet" href="/site.css">
+</head>
+<body>
+  <nav class="snav">
+    <a href="/ripplebug/" class="snav-brand">
+      <img src="/assets/ripplebug-logo.png" alt="">
+      Ripplebug
+    </a>
+    <div class="snav-links"><a href="/">CodeRipple Tech</a></div>
+  </nav>
+
+  <main class="legal">
+    <h1>Ripplebug Privacy Policy</h1>
+    <p class="date">Last updated: July 3, 2026 · Applies to the Ripplebug browser
+    extension and the Ripplebug Board service at board.coderippletech.com.</p>
+
+    <h2>The short version</h2>
+    <p>Ripplebug exists to move bug reports from your browser to the places you
+    choose — and nowhere else. The extension has no analytics, no tracking, and
+    no servers of its own. The Board service stores only what you put on it.</p>
+
+    <h2>The extension</h2>
+    <ul>
+      <li><strong>Credentials</strong> (Azure DevOps PAT, GitHub/GitLab/Trello tokens,
+      Jira/Linear API keys, Slack/Teams webhook URLs, board device tokens) are stored in
+      your browser's local extension storage. They are sent only to the service they
+      belong to, directly from your browser. They never touch our servers.</li>
+      <li><strong>Captures</strong> (screenshots, screen recordings, console and network
+      logs) stay on your device until you file a report — at which point they are sent
+      only to the destination(s) you selected for that report.</li>
+      <li><strong>Console &amp; network capture</strong> runs via a lightweight page
+      logger on tabs you browse; the data is kept in a small in-memory buffer and is
+      discarded unless you attach it to a report.</li>
+      <li>The extension contains <strong>no analytics, no ads, and no third-party
+      trackers</strong>.</li>
+    </ul>
+
+    <h2>The Board service (board.coderippletech.com)</h2>
+    <ul>
+      <li><strong>Account data:</strong> your email address (or GitHub identity if you
+      sign in with GitHub) and a password hash. We do not sell or share it.</li>
+      <li><strong>Content:</strong> captures, media files, comments, and board structure
+      you create are stored on our backend infrastructure (Convex) so they can sync in
+      real time across your devices.</li>
+      <li><strong>Guest reports:</strong> if you share a guest link, reports submitted
+      through it (including the reporter's name if they provide one, and their browser /
+      viewport details) are stored on your board. Guest links are revocable at any time.</li>
+      <li><strong>Share links:</strong> content behind a share link is visible to anyone
+      who has the link, until you disable it.</li>
+      <li><strong>Send-to connections:</strong> if you connect a tracker for exporting
+      cards from the board, those credentials are stored in the service database to
+      perform exports on your behalf. Disconnect at any time to remove them.</li>
+    </ul>
+
+    <h2>Data deletion</h2>
+    <p>Deleting a capture removes its media from storage. Deleting a board removes all
+    of its content. For full account deletion, email us and we will remove your account
+    and all associated data.</p>
+
+    <h2>Permissions the extension requests</h2>
+    <ul>
+      <li><strong>Access to sites</strong> — required to screenshot the visible tab and
+      to talk directly to the tracker APIs you connect.</li>
+      <li><strong>Tab capture / scripting</strong> — required for screen recording and
+      the console/network logger.</li>
+      <li><strong>Storage</strong> — for your settings and drafts, locally.</li>
+    </ul>
+
+    <h2>Contact</h2>
+    <p>Questions or deletion requests:
+    <a href="mailto:dan.negoescu4@gmail.com" style="color:var(--teal)">dan.negoescu4@gmail.com</a></p>
+  </main>
+
+  <footer class="sfooter">
+    <span>© 2026 CodeRipple Tech</span>
+    <div class="cols"><a href="/ripplebug/">Ripplebug</a><a href="/">Home</a></div>
+  </footer>
+</body>
+</html>
