@@ -55,7 +55,7 @@
     .grad-blue { background: linear-gradient(92deg, var(--accent), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .split-copy { min-width: 0; }
     .split-copy code {
-      word-break: break-all; font-size: 12.5px;
+      display: inline-block; white-space: nowrap; font-size: 12.5px;
       background: rgba(255, 255, 255, 0.07); padding: 1px 7px; border-radius: 5px;
       color: #9fc6ff;
     }
@@ -76,10 +76,6 @@
       position: absolute; inset: 0 0 auto 0; height: 5.5%;
       background: rgba(255, 255, 255, 0.05);
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    .demo-menubar::before {
-      content: ""; position: absolute; left: 2.5%; top: 32%; width: 2.2%; height: 36%;
-      border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, 0.55);
     }
     .demo-zone {
       position: absolute; left: 26.5%; top: 8%; width: 47%; height: 89%;
@@ -330,7 +326,7 @@
             <li>⌃⌥Space opens a switcher with live layout miniatures</li>
             <li>Each profile can hold one arrangement per display setup</li>
             <li>Hide or quit everything else when you switch — a true fresh start</li>
-            <li>Scriptable: <code>ripplesnap://apply/Dev</code> from Shortcuts or Raycast</li>
+            <li><span>Scriptable: <code>ripplesnap://apply/Dev</code> from Shortcuts or Raycast</span></li>
           </ul>
         </div>
         <div class="hud-mock reveal" aria-label="Profile switcher mockup">
