@@ -423,3 +423,28 @@ h1.display {
 @media (max-width: 720px) {
   .snav .nav-drop-menu a { display: flex; }
 }
+
+/* ---- structured footer ---- */
+.sfooter { display: block; padding: 56px clamp(16px, 4vw, 48px) 30px; }
+.footer-grid { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1.7fr 1fr 1fr 1fr; gap: 40px; }
+.footer-brand-link { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; color: var(--text); }
+.footer-brand-link img { width: 30px; height: 30px; border-radius: 8px; }
+.footer-brand p { color: var(--muted); font-size: 13.5px; line-height: 1.6; margin-top: 12px; max-width: 280px; }
+.footer-col { display: flex; flex-direction: column; gap: 11px; }
+.footer-col h4 { font-size: 12px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.footer-col a { color: var(--muted); font-size: 14px; width: fit-content; transition: color 0.15s ease; }
+.footer-col a:hover { color: var(--text); }
+.footer-base {
+  max-width: 1080px; margin: 40px auto 0; padding-top: 22px;
+  border-top: 1px solid var(--card-border);
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between;
+  font-size: 13px;
+}
+.footer-base a:hover { color: var(--text); }
+@media (max-width: 900px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 34px; }
+  .footer-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 460px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+}
