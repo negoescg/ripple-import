@@ -6,7 +6,7 @@
   <title>Contact — CodeRipple Tech</title>
   <meta name="description" content="Questions, bug reports, or an idea for the next tool? Send us a message. We read every one.">
   <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
-  <link rel="stylesheet" href="../site.css?v=8">
+  <link rel="stylesheet" href="../site.css?v=9">
   <link rel="canonical" href="https://coderippletech.com/contact/">
   <meta name="theme-color" content="#0a0e14">
   <meta property="og:type" content="website">
@@ -77,10 +77,18 @@
       CodeRipple Tech
     </a>
     <div class="snav-links">
-      <a href="/ripplesnap/">RippleSnap</a>
-      <a href="/ripplebug/">Ripplebug</a>
-      <a href="/ripple-import/">Ripple Import</a>
-      <a href="/ripple-preview/">Ripple Preview</a>
+      <div class="nav-drop">
+        <button class="nav-drop-btn" type="button" aria-haspopup="true" aria-expanded="false">
+          Products
+          <svg width="10" height="7" viewBox="0 0 10 7" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </button>
+        <div class="nav-drop-menu">
+          <a href="/ripplesnap/"><img src="/assets/ripplesnap-logo.png" alt=""><div>RippleSnap<small>macOS window manager</small></div></a>
+          <a href="/ripplebug/"><img src="/assets/ripplebug-logo.png" alt=""><div>Ripplebug<small>Bug reporting, captured whole</small></div></a>
+          <a href="/ripple-import/"><img src="/assets/logo.svg" alt=""><div>Ripple Import<small>CSV &amp; Excel → monday.com</small></div></a>
+          <a href="/ripple-preview/"><img src="/assets/ripple-preview-logo.svg" alt=""><div>Ripple Preview<small>Real block previews for Umbraco</small></div></a>
+        </div>
+      </div>
       <a class="btn btn-ghost" href="/contact/">Contact</a>
     </div>
   </nav>
@@ -159,6 +167,20 @@
       if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
     }), { threshold: 0.12 });
     document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+    const drop = document.querySelector(".nav-drop");
+    const dropBtn = drop.querySelector(".nav-drop-btn");
+    dropBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const open = drop.classList.toggle("open");
+      dropBtn.setAttribute("aria-expanded", String(open));
+    });
+    document.addEventListener("click", (e) => {
+      if (!drop.contains(e.target)) { drop.classList.remove("open"); dropBtn.setAttribute("aria-expanded", "false"); }
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") { drop.classList.remove("open"); dropBtn.setAttribute("aria-expanded", "false"); }
+    });
 
     const form = document.getElementById("contact-form");
     form.addEventListener("submit", async (e) => {
