@@ -96,7 +96,7 @@
       <div class="contact-wrap reveal">
         <div class="contact-card">
           <form id="contact-form" novalidate>
-            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+            <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off">
             <div class="field-row">
               <div class="field">
                 <label for="cf-name">Name</label>
@@ -167,17 +167,13 @@
       btn.disabled = true; btn.textContent = "Sending…";
       const data = Object.fromEntries(new FormData(form));
       try {
-        const res = await fetch("https://formsubmit.co/ajax/support@coderippletech.com", {
+        const res = await fetch("https://amicable-cormorant-95.convex.site/contact", {
           method: "POST",
-          headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify({
-            name: data.name, email: data.email, topic: data.topic, message: data.message,
-            _honey: data._honey, _template: "table", _captcha: "false",
-            _subject: `[${data.topic}] Message from ${data.name}`, _replyto: data.email
-          })
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
         });
         const body = await res.json();
-        if (!res.ok || String(body.success) !== "true") throw new Error(body.message || String(res.status));
+        if (!res.ok || body.ok !== true) throw new Error(body.error || String(res.status));
         form.style.display = "none";
         document.getElementById("sent").style.display = "block";
       } catch {
