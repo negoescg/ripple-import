@@ -310,3 +310,9 @@ h1.display {
   background: var(--card); border: 1px solid var(--card-border);
   padding: 1px 6px; border-radius: 6px;
 }
+
+/* RippleSnap blue (added with the /ripplesnap/ page) */
+.btn-blue { background: linear-gradient(120deg, #298cff, #38d2f2); color: #04131f; border-color: transparent; font-weight: 700; }
+.btn-blue:hover { box-shadow: 0 8px 30px rgba(41, 140, 255, 0.4); }
+.product.blue:hover { border-color: rgba(41, 140, 255, 0.4); box-shadow: 0 18px 60px rgba(41, 140, 255, 0.12); }
+.product.blue .tag { color: #5aa8ff; }

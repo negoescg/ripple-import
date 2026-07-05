@@ -5,6 +5,15 @@
 
 ## Products
 
+- [RippleSnap](https://coderippletech.com/ripplesnap/): macOS window manager
+  (macOS 14+). Drag-snapping with a layout palette and snap assist, plus saved
+  workspace profiles that launch apps and place every window across multiple
+  monitors, restoring automatically when displays connect. Includes workspaces
+  (instant app-set switching), per-app rules, schedules, a custom layout
+  designer and a ripplesnap:// automation scheme. Snapping is free forever;
+  Pro is a $9 one-time purchase (pay what you want) with a 14-day full trial.
+  Signed and notarized by Apple.
+
 - [Ripplebug](https://coderippletech.com/ripplebug/): Chrome and Edge extension
   for bug reporting. One click captures a screenshot, screen recording, console
   log and network log, then files a complete ticket to Azure DevOps, GitHub,

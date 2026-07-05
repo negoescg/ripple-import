@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RippleSnap — Snap windows. Save whole workspaces.</title>
+  <meta name="description" content="The macOS window manager that goes further than snapping: save named profiles that launch your apps and place every window across all your monitors. Free snapping forever, Pro $9 one-time.">
+  <link rel="icon" type="image/png" href="/assets/ripplesnap-logo.png">
+  <link rel="stylesheet" href="/site.css?v=6">
+  <link rel="canonical" href="https://coderippletech.com/ripplesnap/">
+  <meta name="theme-color" content="#0a0e14">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CodeRipple Tech">
+  <meta property="og:url" content="https://coderippletech.com/ripplesnap/">
+  <meta property="og:title" content="RippleSnap — Snap windows. Save whole workspaces.">
+  <meta property="og:description" content="Drag-snap with a layout palette, then save profiles that launch your apps and rebuild your desk with one key. Free snapping forever, Pro $9 one-time.">
+  <meta property="og:image" content="https://coderippletech.com/assets/og-ripplesnap.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="RippleSnap — Snap windows. Save whole workspaces.">
+  <meta name="twitter:description" content="Drag-snap with a layout palette, then save profiles that launch your apps and rebuild your desk with one key. Free snapping forever, Pro $9 one-time.">
+  <meta name="twitter:image" content="https://coderippletech.com/assets/og-ripplesnap.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "RippleSnap",
+    "url": "https://coderippletech.com/ripplesnap/",
+    "image": "https://coderippletech.com/assets/og-ripplesnap.png",
+    "description": "macOS window manager: drag-snapping with a layout palette and snap assist, plus saved workspace profiles that launch apps and place every window across multiple monitors. Workspaces, per-app rules, schedules and automation included.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "macOS 14+",
+    "offers": {
+      "@type": "Offer",
+      "price": "9",
+      "priceCurrency": "USD",
+      "description": "Pro unlock, one-time purchase. Snapping is free forever; 14-day full trial."
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "CodeRipple Tech",
+      "url": "https://coderippletech.com/"
+    }
+  }
+  </script>
+  <style>
+    :root {
+      --accent: #298cff;
+      --accent-soft: rgba(41, 140, 255, 0.14);
+      --cyan: #38d2f2;
+    }
+    .btn-blue { background: linear-gradient(120deg, var(--accent), var(--cyan)); color: #04131f; border-color: transparent; font-weight: 700; }
+    .btn-blue:hover { box-shadow: 0 8px 30px rgba(41, 140, 255, 0.4); }
+    .grad-blue { background: linear-gradient(92deg, var(--accent), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .split-copy { min-width: 0; }
+    .split-copy code {
+      word-break: break-all; font-size: 12.5px;
+      background: rgba(255, 255, 255, 0.07); padding: 1px 7px; border-radius: 5px;
+      color: #9fc6ff;
+    }
+
+    /* ---- animated hero demo: a mac screen where a window drags to the
+           top, the layout palette drops down, and it snaps into place ---- */
+    .demo {
+      position: relative; max-width: 760px; margin: 44px auto 0;
+      aspect-ratio: 16 / 9.6; border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--card-border);
+      background:
+        radial-gradient(120% 90% at 20% 0%, rgba(41, 140, 255, 0.16), transparent 55%),
+        radial-gradient(110% 90% at 90% 100%, rgba(56, 210, 242, 0.12), transparent 55%),
+        linear-gradient(180deg, #101725, #0b111b);
+      box-shadow: 0 40px 120px rgba(0, 0, 0, 0.55);
+    }
+    .demo-menubar {
+      position: absolute; inset: 0 0 auto 0; height: 5.5%;
+      background: rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .demo-menubar::before {
+      content: ""; position: absolute; left: 2.5%; top: 32%; width: 2.2%; height: 36%;
+      border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, 0.55);
+    }
+    .demo-zone {
+      position: absolute; left: 26.5%; top: 8%; width: 47%; height: 89%;
+      border-radius: 10px; border: 1.5px solid rgba(41, 140, 255, 0.9);
+      background: rgba(41, 140, 255, 0.13);
+      backdrop-filter: blur(3px);
+      opacity: 0; animation: demoZone 9s ease-in-out infinite;
+    }
+    .demo-win {
+      position: absolute; left: 33%; top: 26%; width: 34%; height: 46%;
+      border-radius: 9px; overflow: hidden;
+      background: linear-gradient(180deg, #232c3d, #1a2231);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+      animation: demoWin 9s ease-in-out infinite;
+    }
+    .demo-win::before {
+      content: ""; display: block; height: 16%;
+      background: rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .demo-win::after {
+      content: ""; position: absolute; left: 10%; top: 30%; width: 55%; height: 8%;
+      border-radius: 4px; background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 18px 0 rgba(255, 255, 255, 0.07), 0 36px 0 rgba(255, 255, 255, 0.05);
+    }
+    .demo-palette {
+      position: absolute; left: 50%; top: 9%; transform: translateX(-50%);
+      display: flex; gap: 8px; padding: 10px 12px; border-radius: 13px;
+      background: rgba(18, 24, 36, 0.85); border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+      opacity: 0; animation: demoPalette 9s ease-in-out infinite;
+    }
+    .demo-card { display: flex; gap: 2.5px; padding: 4px; border-radius: 6px; background: rgba(255, 255, 255, 0.05); }
+    .demo-card i { width: 9px; height: 22px; border-radius: 2.5px; background: rgba(255, 255, 255, 0.35); }
+    .demo-card.wide i:nth-child(2) { width: 18px; }
+    .demo-card.hot { background: rgba(41, 140, 255, 0.2); }
+    .demo-card.hot i { background: rgba(255, 255, 255, 0.45); }
+    .demo-card.hot i:nth-child(2) { background: linear-gradient(180deg, var(--accent), var(--cyan)); animation: demoCell 9s ease-in-out infinite; }
+    .demo-ring {
+      position: absolute; left: 50%; top: 52%; width: 20px; height: 20px;
+      margin: -10px 0 0 -10px; border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.85);
+      opacity: 0; animation: demoRing 9s ease-out infinite;
+    }
+    .demo-caption {
+      position: absolute; left: 0; right: 0; bottom: 4.5%; text-align: center;
+      font-size: 12.5px; font-weight: 600; color: rgba(232, 237, 244, 0.85);
+      opacity: 0; animation: demoCaption 9s ease-in-out infinite;
+    }
+    @keyframes demoWin {
+      0%, 14% { left: 33%; top: 26%; width: 34%; height: 46%; }
+      30%, 46% { left: 36%; top: 8.5%; width: 34%; height: 46%; }
+      54%, 86% { left: 27%; top: 9%; width: 46%; height: 87%; }
+      100% { left: 33%; top: 26%; width: 34%; height: 46%; }
+    }
+    @keyframes demoPalette { 0%, 24% { opacity: 0; transform: translateX(-50%) translateY(-8px) scale(0.97); } 30%, 46% { opacity: 1; transform: translateX(-50%); } 52%, 100% { opacity: 0; transform: translateX(-50%) translateY(-6px); } }
+    @keyframes demoCell { 0%, 32% { filter: brightness(0.9); } 38%, 46% { filter: brightness(1.35); } 52%, 100% { filter: brightness(0.9); } }
+    @keyframes demoZone { 0%, 40% { opacity: 0; } 45%, 52% { opacity: 1; } 58%, 100% { opacity: 0; } }
+    @keyframes demoRing { 0%, 52% { opacity: 0; transform: scale(0.4); } 55% { opacity: 0.9; } 62%, 100% { opacity: 0; transform: scale(3.4); } }
+    @keyframes demoCaption {
+      0%, 8% { opacity: 0; }
+      10%, 22% { opacity: 1; } /* drag toward the top */
+      26%, 44% { opacity: 1; }
+      48%, 52% { opacity: 0; }
+      56%, 82% { opacity: 1; }
+      86%, 100% { opacity: 0; }
+    }
+    .demo-caption span { position: absolute; left: 0; right: 0; opacity: 0; }
+    .demo-caption .c1 { animation: cap1 9s linear infinite; }
+    .demo-caption .c2 { animation: cap2 9s linear infinite; }
+    .demo-caption .c3 { animation: cap3 9s linear infinite; }
+    @keyframes cap1 { 0%, 6% { opacity: 0; } 8%, 24% { opacity: 1; } 27%, 100% { opacity: 0; } }
+    @keyframes cap2 { 0%, 27% { opacity: 0; } 30%, 46% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    @keyframes cap3 { 0%, 54% { opacity: 0; } 58%, 82% { opacity: 1; } 86%, 100% { opacity: 0; } }
+
+    /* ---- HUD mockup (profiles split row) ---- */
+    .hud-mock {
+      position: relative; border-radius: 16px; padding: 18px;
+      background: rgba(18, 24, 36, 0.9); border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+    .hud-search { height: 34px; border-radius: 9px; background: rgba(255, 255, 255, 0.06); margin-bottom: 14px; position: relative; }
+    .hud-search::before { content: "Switch to…"; position: absolute; left: 12px; top: 6px; color: rgba(147, 161, 181, 0.7); font-size: 14px; }
+    .hud-cards { display: flex; gap: 10px; }
+    .hud-card { flex: 1; border-radius: 11px; padding: 10px; background: rgba(255, 255, 255, 0.045); border: 1.5px solid transparent; }
+    .hud-card .mini { display: grid; grid-template-columns: 2fr 1fr; gap: 3px; height: 52px; margin-bottom: 8px; }
+    .hud-card .mini i { border-radius: 3px; background: rgba(41, 140, 255, 0.4); }
+    .hud-card .mini i:first-child { grid-row: span 2; }
+    .hud-card b { font-size: 12.5px; font-weight: 600; }
+    .hud-card:nth-child(1) { animation: hudSel 6s ease-in-out infinite; }
+    .hud-card:nth-child(2) { animation: hudSel 6s ease-in-out infinite 2s; }
+    .hud-card:nth-child(3) { animation: hudSel 6s ease-in-out infinite 4s; }
+    @keyframes hudSel {
+      0%, 26% { border-color: transparent; background: rgba(255, 255, 255, 0.045); }
+      8%, 18% { border-color: var(--accent); background: rgba(41, 140, 255, 0.12); }
+    }
+
+    /* ---- designer mockup ---- */
+    .designer-mock {
+      position: relative; border-radius: 16px; padding: 16px;
+      background: rgba(18, 24, 36, 0.9); border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+    .designer-grid { position: relative; height: 210px; border-radius: 10px; background: rgba(255, 255, 255, 0.03); overflow: hidden; }
+    .designer-grid i { position: absolute; border-radius: 6px; background: linear-gradient(180deg, rgba(41, 140, 255, 0.34), rgba(41, 140, 255, 0.2)); border: 1px solid rgba(41, 140, 255, 0.5); }
+    .dg-a { left: 2%; top: 3%; bottom: 3%; width: 38%; animation: dgA 5s ease-in-out infinite; }
+    .dg-b { left: 43%; top: 3%; right: 2%; height: 45.5%; animation: dgB 5s ease-in-out infinite; }
+    .dg-c { left: 43%; bottom: 3%; right: 2%; height: 45.5%; animation: dgB 5s ease-in-out infinite; }
+    .dg-handle {
+      position: absolute; left: 41.5%; top: 40%; width: 8px; height: 20%;
+      border-radius: 4px; background: rgba(255, 255, 255, 0.18);
+      animation: dgH 5s ease-in-out infinite; cursor: col-resize;
+    }
+    @keyframes dgA { 0%, 20% { width: 38%; } 45%, 70% { width: 52%; } 95%, 100% { width: 38%; } }
+    @keyframes dgB { 0%, 20% { left: 43%; } 45%, 70% { left: 57%; } 95%, 100% { left: 43%; } }
+    @keyframes dgH { 0%, 20% { left: 41.5%; } 45%, 70% { left: 55.5%; } 95%, 100% { left: 41.5%; } }
+    .designer-note { margin-top: 10px; font-size: 12px; color: var(--muted); text-align: center; }
+
+    /* ---- pricing ---- */
+    .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; max-width: 760px; margin: 0 auto; }
+    .plan {
+      border: 1px solid var(--card-border); border-radius: var(--radius);
+      background: var(--card); padding: 28px; text-align: left;
+    }
+    .plan.pro { border-color: rgba(41, 140, 255, 0.5); background: linear-gradient(180deg, rgba(41, 140, 255, 0.09), rgba(255, 255, 255, 0.02)); position: relative; }
+    .plan.pro::before {
+      content: "14-day free trial of everything"; position: absolute; top: -12px; left: 24px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      background: linear-gradient(120deg, var(--accent), var(--cyan)); color: #04131f;
+      padding: 4px 10px; border-radius: 999px;
+    }
+    .plan h3 { font-size: 18px; margin-bottom: 4px; }
+    .plan .price { font-size: 34px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2px; }
+    .plan .price small { font-size: 13px; font-weight: 500; color: var(--muted); }
+    .plan ul { list-style: none; margin: 18px 0 22px; display: grid; gap: 9px; }
+    .plan li { display: flex; gap: 9px; font-size: 13.5px; color: var(--muted); }
+    .plan li::before { content: "✓"; color: var(--accent); font-weight: 700; }
+    @media (prefers-reduced-motion: reduce) {
+      .demo-win, .demo-palette, .demo-zone, .demo-ring, .demo-caption span,
+      .demo-card.hot i, .hud-card, .dg-a, .dg-b, .dg-c, .dg-handle { animation: none !important; }
+      .demo-palette { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="snav">
+    <div class="snav-brand">
+      <a class="snav-brand-main" href="/ripplesnap/">
+        <img src="/assets/ripplesnap-logo.png" alt="">
+        RippleSnap
+      </a>
+      <a class="snav-by" href="/">by CodeRipple Tech</a>
+    </div>
+    <div class="snav-links">
+      <a href="#features">Features</a>
+      <a href="#profiles">Profiles</a>
+      <a href="#pricing">Pricing</a>
+      <a class="btn btn-blue" href="https://github.com/negoescg/ripplesnap/releases/latest"><span class="cta-full">Download for macOS</span><span class="cta-short">Download</span></a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="orb orb-teal" style="background: var(--accent);"></div>
+    <div class="orb orb-purple" style="background: var(--cyan);"></div>
+    <span class="eyebrow">macOS Window Manager</span>
+    <h1 class="display">Snap windows.<br><span class="grad-blue">Save whole workspaces.</span></h1>
+    <p class="lede">Every window manager can snap. RippleSnap also remembers your entire desk —
+    which apps, which windows, where — and rebuilds it with one key. Dock your laptop and
+    your desk restores itself.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-blue" href="https://github.com/negoescg/ripplesnap/releases/latest">Download for macOS</a>
+      <a class="btn btn-ghost" href="#profiles">See profiles →</a>
+    </div>
+    <div class="hero-note">Free snapping forever · 14-day full trial · Pro $9 one-time, no subscription</div>
+
+    <div class="demo reveal in" aria-label="Animated demo: dragging a window to the top opens the layout palette and snaps it into a column">
+      <div class="demo-menubar"></div>
+      <div class="demo-zone"></div>
+      <div class="demo-win"></div>
+      <div class="demo-palette">
+        <div class="demo-card"><i></i><i></i></div>
+        <div class="demo-card"><i></i><i></i><i></i></div>
+        <div class="demo-card wide hot"><i></i><i></i><i></i></div>
+        <div class="demo-card"><i></i><i></i></div>
+        <div class="demo-card"><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="demo-ring"></div>
+      <div class="demo-caption">
+        <span class="c1">Drag toward the top…</span>
+        <span class="c2">…pick a layout…</span>
+        <span class="c3">…and it snaps into place.</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <section class="section" id="features">
+      <div class="section-head reveal">
+        <h2>Snapping that goes further</h2>
+        <p>Six ways to place a window, and an engine that handles the parts other apps ignore.</p>
+      </div>
+      <div class="features">
+        <div class="feature reveal">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+          <h4>Drag-snap with a layout palette</h4>
+          <p>Edges give halves, corners quarters. Drag to the top and a palette of layouts drops down — thirds, priority center, four columns, yours.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <h4>Snap assist</h4>
+          <p>Placed one window in a layout? The remaining slots offer your other windows as one-click chips. Esc dismisses, or just keep working.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.2-8.6"/><path d="M21 3v6h-6"/></svg></div>
+          <h4>Layouts that adapt</h4>
+          <p>Apps enforce minimum sizes — Xcode won't be a narrow column. RippleSnap learns each app's limits, warns before the drop, and re-balances the layout instead of overlapping.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 22h8M12 18v4"/></svg></div>
+          <h4>Multi-monitor brains</h4>
+          <p>Profiles remember each display setup separately. Unplug the monitor and layouts adapt; plug it back in and they restore automatically.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+          <h4>Rules, schedules, triggers</h4>
+          <p>Slack always opens in the right third. Deep Work applies at 9:00 on weekdays. Steam opens and your Game profile follows.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></div>
+          <h4>Undo for your desktop</h4>
+          <p>Every apply snapshots your windows first. One key rewinds; a timeline holds the last ten states. Off-screen windows get a rescue button.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="profiles">
+      <div class="split">
+        <div class="split-copy reveal">
+          <h3>Profiles: your desk, on a key</h3>
+          <p>Save your arrangement as “Dev”, “Focus”, “Game”. Applying one launches the apps
+          that are closed, restores the minimized, and places every window — even the
+          stacking order comes back the way you saved it.</p>
+          <ul>
+            <li>⌃⌥Space opens a switcher with live layout miniatures</li>
+            <li>Each profile can hold one arrangement per display setup</li>
+            <li>Hide or quit everything else when you switch — a true fresh start</li>
+            <li>Scriptable: <code>ripplesnap://apply/Dev</code> from Shortcuts or Raycast</li>
+          </ul>
+        </div>
+        <div class="hud-mock reveal" aria-label="Profile switcher mockup">
+          <div class="hud-search"></div>
+          <div class="hud-cards">
+            <div class="hud-card"><div class="mini"><i></i><i></i><i></i></div><b>Dev</b></div>
+            <div class="hud-card"><div class="mini"><i></i><i></i><i></i></div><b>Focus</b></div>
+            <div class="hud-card"><div class="mini"><i></i><i></i><i></i></div><b>Game</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="split">
+        <div class="designer-mock reveal" aria-label="Layout designer mockup">
+          <div class="designer-grid">
+            <i class="dg-a"></i><i class="dg-b"></i><i class="dg-c"></i>
+            <div class="dg-handle"></div>
+          </div>
+          <div class="designer-note">Click to split · ⌥-click to stack · drag the lines</div>
+        </div>
+        <div class="split-copy reveal">
+          <h3>Design your own layouts</h3>
+          <p>The built-in palette is just the start. Open the designer, click cells to split
+          them, drag the boundaries, and save any arrangement — half columns, stacks, grids.
+          Custom layouts get snap assist and adaptive re-balancing too.</p>
+          <ul>
+            <li>Boundaries snap to quarters, thirds and halves</li>
+            <li>Hide built-ins you never use, reorder the palette</li>
+            <li>Every layout works on every monitor shape</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="section-head reveal">
+        <h2>Free forever. Pro when you're ready.</h2>
+        <p>Everything works free for 14 days. After that, snapping stays free — Pro keeps the superpowers.</p>
+      </div>
+      <div class="plans">
+        <div class="plan reveal">
+          <h3>Free</h3>
+          <div class="price">$0 <small>forever</small></div>
+          <ul>
+            <li>Drag-snap with glass previews</li>
+            <li>Layout palette &amp; snap assist</li>
+            <li>Keyboard &amp; pointer snapping</li>
+            <li>Adaptive columns</li>
+            <li>Undo &amp; window rescue</li>
+          </ul>
+          <a class="btn btn-ghost" href="https://github.com/negoescg/ripplesnap/releases/latest">Download</a>
+        </div>
+        <div class="plan pro reveal">
+          <h3>Pro</h3>
+          <div class="price">$9 <small>one-time · pay more if you love it</small></div>
+          <ul>
+            <li>Profiles — save &amp; restore whole workspaces</li>
+            <li>Workspaces — instant app-set switching</li>
+            <li>Auto-apply when displays connect</li>
+            <li>Rules, schedules &amp; app triggers</li>
+            <li>Custom layout designer &amp; automation</li>
+          </ul>
+          <!-- BUY_LINK: swap href for the Lemon Squeezy checkout URL -->
+          <a class="btn btn-blue" href="https://github.com/negoescg/ripplesnap/releases/latest">Start free trial</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="cta-band reveal">
+        <h2>Your desk, the way you left it.</h2>
+        <p>Notarized by Apple. No account, no tracking, no subscription. macOS 14 or later.</p>
+        <a class="btn btn-blue" href="https://github.com/negoescg/ripplesnap/releases/latest">Download for macOS</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="sfooter">
+    <span>© 2026 CodeRipple Tech</span>
+    <div class="cols">
+      <a href="/">CodeRipple Tech</a>
+      <a href="/terms.html">Terms</a>
+      <a href="mailto:dan.negoescu4@gmail.com">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    const io = new IntersectionObserver((es) => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    }), { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
