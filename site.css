@@ -381,3 +381,10 @@ h1.display {
   .chip, .grad-anim { animation: none; }
   .ripples i { animation: none; opacity: 0; }
 }
+
+/* ---- soft hero-to-page transition (no hard seam) ---- */
+.hero::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 170px;
+  background: linear-gradient(180deg, rgba(10, 14, 20, 0), var(--bg));
+  z-index: -1; pointer-events: none;
+}
