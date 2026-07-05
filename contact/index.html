@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — CodeRipple Tech</title>
+  <meta name="description" content="Questions, bug reports, or an idea for the next tool? Send us a message. We read every one.">
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+  <link rel="stylesheet" href="../site.css?v=6">
+  <link rel="canonical" href="https://coderippletech.com/contact/">
+  <meta name="theme-color" content="#0a0e14">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CodeRipple Tech">
+  <meta property="og:url" content="https://coderippletech.com/contact/">
+  <meta property="og:title" content="Contact — CodeRipple Tech">
+  <meta property="og:description" content="Questions, bug reports, or an idea for the next tool? Send us a message.">
+  <meta property="og:image" content="https://coderippletech.com/assets/og-home.png">
+  <style>
+    /* short hero — full-size orbs would flood it */
+    .hero .orb { opacity: 0.28; width: 380px; height: 380px; }
+    .contact-wrap { max-width: 640px; margin: 0 auto; }
+    .contact-card {
+      background: var(--card, rgba(255, 255, 255, 0.03));
+      border: 1px solid var(--card-border, rgba(255, 255, 255, 0.08));
+      border-radius: 18px; padding: 30px;
+    }
+    .field { margin-bottom: 18px; }
+    .field label { display: block; font-size: 13.5px; font-weight: 600; margin-bottom: 7px; color: var(--fg, #e8edf4); }
+    .field input, .field select, .field textarea {
+      width: 100%; font: inherit; font-size: 14.5px; color: var(--fg, #e8edf4);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px; padding: 11px 14px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      -webkit-appearance: none; appearance: none;
+    }
+    .field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b98ab' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px;
+    }
+    .field textarea { min-height: 140px; resize: vertical; }
+    .field input::placeholder, .field textarea::placeholder { color: rgba(139, 152, 171, 0.6); }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none; border-color: rgba(45, 212, 191, 0.55);
+      box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.14);
+    }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 560px) { .field-row { grid-template-columns: 1fr; } }
+    .contact-send { width: 100%; justify-content: center; font-size: 15px; padding: 13px 22px; cursor: pointer; border: 0; }
+    .contact-send[disabled] { opacity: 0.6; cursor: default; }
+    .form-note { font-size: 12.5px; color: var(--muted, #8b98ab); text-align: center; margin-top: 14px; }
+    .form-note a { color: inherit; }
+    .sent {
+      display: none; text-align: center; padding: 46px 20px;
+      animation: sentIn 0.45s ease both;
+    }
+    @keyframes sentIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    .sent-ring {
+      width: 64px; height: 64px; margin: 0 auto 18px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(45, 212, 191, 0.12); border: 1px solid rgba(45, 212, 191, 0.4);
+    }
+    .sent-ring svg { width: 28px; height: 28px; }
+    .sent h3 { font-size: 22px; margin-bottom: 8px; }
+    .sent p { color: var(--muted, #8b98ab); font-size: 14.5px; }
+    .form-error { display: none; margin-top: 14px; font-size: 13.5px; color: #fca5a5; text-align: center; }
+    .form-error a { color: #fecaca; }
+  </style>
+</head>
+<body>
+
+  <nav class="snav">
+    <a href="../" class="snav-brand">
+      <img src="../assets/logo.svg" alt="">
+      CodeRipple Tech
+    </a>
+    <div class="snav-links">
+      <a href="/ripplesnap/">RippleSnap</a>
+      <a href="/ripplebug/">Ripplebug</a>
+      <a href="/ripple-import/">Ripple Import</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </nav>
+
+  <header class="hero" style="padding-bottom: 20px;">
+    <div class="orb orb-teal"></div>
+    <div class="orb orb-purple"></div>
+    <span class="eyebrow">Contact</span>
+    <h1 class="display" style="font-size: clamp(34px, 6vw, 56px);">Say <span class="grad-teal">hello.</span></h1>
+    <p class="lede">A question, a bug, or an idea for the next tool.
+    Every message lands in front of a human. Usually the founder.</p>
+  </header>
+
+  <main class="wrap">
+    <section class="section" style="padding-top: 10px;">
+      <div class="contact-wrap reveal">
+        <div class="contact-card">
+          <form id="contact-form" novalidate>
+            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+            <div class="field-row">
+              <div class="field">
+                <label for="cf-name">Name</label>
+                <input id="cf-name" name="name" type="text" placeholder="Your name" required>
+              </div>
+              <div class="field">
+                <label for="cf-email">Email</label>
+                <input id="cf-email" name="email" type="email" placeholder="you@example.com" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="cf-topic">What is it about?</label>
+              <select id="cf-topic" name="topic">
+                <option>RippleSnap</option>
+                <option>Ripplebug</option>
+                <option>Ripple Import</option>
+                <option>Ripple Preview</option>
+                <option>An idea for a new tool</option>
+                <option>Something else</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cf-message">Message</label>
+              <textarea id="cf-message" name="message" placeholder="What's on your mind? If it's a bug, the steps to reproduce help a lot." required></textarea>
+            </div>
+            <button class="btn btn-teal contact-send" type="submit">Send message</button>
+            <p class="form-error" id="form-error">Something went wrong. Email us instead at
+              <a href="mailto:support@coderippletech.com">support@coderippletech.com</a>.</p>
+            <p class="form-note">Or email <a href="mailto:support@coderippletech.com">support@coderippletech.com</a> directly.</p>
+          </form>
+          <div class="sent" id="sent">
+            <div class="sent-ring">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5L20 6.5" stroke="#2dd4bf" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3>Message sent</h3>
+            <p>Thanks for writing. We read every message and usually reply within a day.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="sfooter">
+    <span>© 2026 CodeRipple Tech</span>
+    <div class="cols">
+      <a href="/ripplesnap/">RippleSnap</a>
+      <a href="/ripplebug/">Ripplebug</a>
+      <a href="/ripple-import/">Ripple Import</a>
+      <a href="/ripple-preview/">Ripple Preview</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    const io = new IntersectionObserver((es) => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    }), { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+    const form = document.getElementById("contact-form");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      const btn = form.querySelector(".contact-send");
+      const err = document.getElementById("form-error");
+      err.style.display = "none";
+      btn.disabled = true; btn.textContent = "Sending…";
+      const data = Object.fromEntries(new FormData(form));
+      try {
+        const res = await fetch("https://formsubmit.co/ajax/support@coderippletech.com", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify({
+            name: data.name, email: data.email, topic: data.topic, message: data.message,
+            _honey: data._honey, _template: "table", _captcha: "false",
+            _subject: `[${data.topic}] Message from ${data.name}`, _replyto: data.email
+          })
+        });
+        const body = await res.json();
+        if (!res.ok || String(body.success) !== "true") throw new Error(body.message || String(res.status));
+        form.style.display = "none";
+        document.getElementById("sent").style.display = "block";
+      } catch {
+        err.style.display = "block";
+        btn.disabled = false; btn.textContent = "Send message";
+      }
+    });
+  </script>
+</body>
+</html>
