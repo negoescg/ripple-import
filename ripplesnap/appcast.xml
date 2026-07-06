@@ -6,6 +6,25 @@
     <description>RippleSnap updates</description>
     <language>en</language>
     <item>
+      <title>Version 1.3.1</title>
+      <pubDate>Mon, 06 Jul 2026 15:20:00 +0100</pubDate>
+      <sparkle:version>8</sparkle:version>
+      <sparkle:shortVersionString>1.3.1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <description><![CDATA[
+        <h3>RippleSnap Pro is now available</h3>
+        <ul>
+          <li>Buy Pro right from the app — the Unlock Pro screen now goes to a real checkout, and your license key activates instantly.</li>
+          <li>$9 one-time, lifetime license, 3 Macs.</li>
+        </ul>
+      ]]></description>
+      <enclosure
+        url="https://github.com/negoescg/ripplesnap-releases/releases/download/v1.3.1/RippleSnap.dmg"
+        sparkle:edSignature="LXKgbe5LGeuT1P/PbauzgkZs8BUPobaqA2spy/lFaJjslvpBVOWQMJvvGpUJmAxwI/MyVxIoPuMO4+JiLIGWBA=="
+        length="3990301"
+        type="application/octet-stream"/>
+    </item>
+    <item>
       <title>Version 1.3.0</title>
       <pubDate>Sun, 05 Jul 2026 21:30:00 +0100</pubDate>
       <sparkle:version>7</sparkle:version>
