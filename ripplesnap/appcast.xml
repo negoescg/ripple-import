@@ -6,6 +6,24 @@
     <description>RippleSnap updates</description>
     <language>en</language>
     <item>
+      <title>Version 1.3.3</title>
+      <pubDate>Mon, 06 Jul 2026 18:10:00 +0100</pubDate>
+      <sparkle:version>10</sparkle:version>
+      <sparkle:shortVersionString>1.3.3</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <description><![CDATA[
+        <ul>
+          <li>Sharper drag-to-top layout palette: tighter, cleaner, consistent on any wallpaper.</li>
+          <li>Window suggestions after a snap can now be turned off right from the popup.</li>
+        </ul>
+      ]]></description>
+      <enclosure
+        url="https://github.com/negoescg/ripplesnap-releases/releases/download/v1.3.3/RippleSnap.dmg"
+        sparkle:edSignature="lkZcZjc7mq+hIyXDLdDJdwf6lLGsUDteQfiKbdTt4fQgKIM2SyND0sesWUEAaZfeMnaUY59CUr5ICiHirAoDDg=="
+        length="3991145"
+        type="application/octet-stream"/>
+    </item>
+    <item>
       <title>Version 1.3.2</title>
       <pubDate>Mon, 06 Jul 2026 16:05:00 +0100</pubDate>
       <sparkle:version>9</sparkle:version>
