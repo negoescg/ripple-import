@@ -47,6 +47,14 @@
     @media (prefers-reduced-motion: no-preference) {
       .pscene .stage { animation: stageLoop 8s linear infinite; }
       @keyframes stageLoop { 0% { opacity: 0; } 3%, 93% { opacity: 1; } 99%, 100% { opacity: 0; } }
+      /* phase-shift each scene (negative delay) so the section never moves
+         in lockstep — at any moment most scenes are holding still */
+      .pscene .stage, .pscene .stage *, .pscene .stage *::before { animation-delay: var(--phase, 0s); }
+      .ps-root { --phase: 0s; }
+      .ps-snap { --phase: -3.2s; }
+      .ps-bug { --phase: -6.4s; }
+      .ps-import { --phase: -1.6s; }
+      .ps-preview { --phase: -4.8s; }
     }
 
     /* ---- RippleRoot: `rr up` types, everything arrives ---- */
@@ -210,36 +218,49 @@
       @keyframes srcDim3 { 0%, 54% { opacity: 1; } 58%, 100% { opacity: 0.3; } }
     }
 
-    /* ---- Ripple Preview: scanline renders the wireframe into the real page ---- */
+    /* ---- Ripple Preview: scanline renders a real page structure ---- */
     .ps-preview .bframe { left: 12px; right: 12px; top: 10px; bottom: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.14); background: #101826; overflow: hidden; }
-    .ps-preview .bbar { left: 0; right: 0; top: 0; height: 16px; background: rgba(255,255,255,0.05); border-bottom: 1px solid var(--card-border); }
-    .ps-preview .bbar::before { content: ""; position: absolute; top: 5px; left: 8px; width: 5px; height: 5px; border-radius: 50%; background: #ff5f57; box-shadow: 9px 0 0 #febc2e, 18px 0 0 #28c840; }
-    .ps-preview .pg { left: 10px; right: 10px; top: 24px; bottom: 8px; }
-    .ps-preview .pg b { left: 0; border-radius: 4px; }
-    .ps-preview .hero { top: 0; height: 34px; right: 0; }
-    .ps-preview .tl1 { top: 42px; height: 7px; width: 72%; }
-    .ps-preview .tl2 { top: 55px; height: 7px; width: 52%; }
-    .ps-preview .btn2 { top: 70px; height: 14px; width: 64px; border-radius: 7px; }
-    .ps-preview .wire b { border: 1px dashed rgba(255,255,255,0.28); background: repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0 7px, transparent 7px 14px); }
-    .ps-preview .real b { border: 1px solid transparent; }
-    .ps-preview .real .hero { background: linear-gradient(120deg, #1e6f9e, #38bdf8 55%, #7d66fd); }
-    .ps-preview .real .tl1, .ps-preview .real .tl2 { background: rgba(255,255,255,0.4); border: none; }
-    .ps-preview .real .btn2 { background: #38bdf8; }
-    .ps-preview .real { clip-path: inset(0 0 100% 0); }
-    .ps-preview .scan { left: 10px; right: 10px; top: 24px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, transparent, #38bdf8, transparent); box-shadow: 0 0 14px 2px rgba(56, 189, 248, 0.5); opacity: 0; }
+    .ps-preview .bbar { left: 0; right: 0; top: 0; height: 17px; background: rgba(255,255,255,0.05); border-bottom: 1px solid var(--card-border); }
+    .ps-preview .bbar::before { content: ""; position: absolute; top: 6px; left: 8px; width: 5px; height: 5px; border-radius: 50%; background: #ff5f57; box-shadow: 9px 0 0 #febc2e, 18px 0 0 #28c840; }
     .ps-preview .livebadge {
-      right: 18px; bottom: 16px; font-size: 9.5px; font-weight: 700; color: #7dd3fc;
-      background: rgba(56, 189, 248, 0.14); border: 1px solid rgba(56, 189, 248, 0.45);
-      border-radius: 999px; padding: 2px 9px; opacity: 0; z-index: 2;
+      right: 8px; top: 2px; font-size: 8.5px; font-weight: 700; color: #7dd3fc;
+      border-radius: 999px; padding: 1px 7px; opacity: 0; z-index: 3;
+      background: rgba(56, 189, 248, 0.14); border: 1px solid rgba(56, 189, 248, 0.4);
     }
-    .ps-preview .livebadge::before { content: "●"; margin-right: 4px; font-size: 8px; color: #38bdf8; }
+    .ps-preview .livebadge::before { content: "\25CF"; margin-right: 4px; font-size: 7px; color: #38bdf8; }
+    .ps-preview .pg { left: 12px; right: 12px; top: 25px; bottom: 8px; }
+    .ps-preview .pg b { border-radius: 3px; }
+    /* page structure: nav / hero+heading / image + text column / button */
+    .ps-preview .pnav { top: 0; left: 0; right: 0; height: 8px; }
+    .ps-preview .pnav::before { content: ""; position: absolute; left: 2px; top: 2px; width: 22px; height: 4px; border-radius: 2px; background: inherit; }
+    .ps-preview .hero { top: 12px; left: 0; right: 0; height: 24px; }
+    .ps-preview .hero::before { content: ""; position: absolute; left: 8px; top: 6px; width: 42%; height: 5px; border-radius: 3px; }
+    .ps-preview .hero::after { content: ""; position: absolute; left: 8px; top: 15px; width: 26%; height: 3px; border-radius: 2px; }
+    .ps-preview .pimg { top: 42px; left: 0; width: 30%; height: 32px; }
+    .ps-preview .tl1 { top: 45px; left: 35%; width: 58%; height: 6px; }
+    .ps-preview .tl2 { top: 55px; left: 35%; width: 44%; height: 6px; }
+    .ps-preview .btn2 { top: 64px; left: 35%; width: 56px; height: 10px; border-radius: 5px; }
+    /* wireframe pass: dashed gray */
+    .ps-preview .wire b { border: 1px dashed rgba(255,255,255,0.26); background: rgba(255,255,255,0.03); }
+    .ps-preview .wire .pimg { background: repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0 6px, transparent 6px 12px); }
+    .ps-preview .wire .hero::before, .ps-preview .wire .hero::after { border: 1px dashed rgba(255,255,255,0.2); }
+    /* rendered pass: the real page */
+    .ps-preview .real .pnav { background: rgba(255,255,255,0.12); border: none; }
+    .ps-preview .real .hero { background: linear-gradient(120deg, #1e6f9e, #38bdf8 60%, #7d66fd); border: none; }
+    .ps-preview .real .hero::before { background: rgba(255,255,255,0.85); }
+    .ps-preview .real .hero::after { background: rgba(255,255,255,0.45); }
+    .ps-preview .real .pimg { background: linear-gradient(135deg, #164e63, #38bdf8); border: none; }
+    .ps-preview .real .tl1, .ps-preview .real .tl2 { background: rgba(255,255,255,0.38); border: none; }
+    .ps-preview .real .btn2 { background: #38bdf8; border: none; }
+    .ps-preview .real { clip-path: inset(0 0 100% 0); }
+    .ps-preview .scan { left: 10px; right: 10px; top: 25px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, transparent, #38bdf8, transparent); box-shadow: 0 0 14px 2px rgba(56, 189, 248, 0.5); opacity: 0; z-index: 2; }
     @media (prefers-reduced-motion: no-preference) {
       .ps-preview .real { animation: renderIn 8s ease-in-out infinite; }
       @keyframes renderIn { 0%, 18% { clip-path: inset(0 0 100% 0); } 55%, 100% { clip-path: inset(0 0 0% 0); } }
       .ps-preview .scan { animation: scanMove 8s ease-in-out infinite; }
-      @keyframes scanMove { 0%, 16% { transform: translateY(0); opacity: 0; } 18% { opacity: 1; } 54% { transform: translateY(92px); opacity: 1; } 57%, 100% { transform: translateY(92px); opacity: 0; } }
+      @keyframes scanMove { 0%, 16% { transform: translateY(0); opacity: 0; } 18% { opacity: 1; } 54% { transform: translateY(78px); opacity: 1; } 57%, 100% { transform: translateY(78px); opacity: 0; } }
       .ps-preview .livebadge { animation: liveIn 8s ease infinite; }
-      @keyframes liveIn { 0%, 56% { opacity: 0; transform: scale(0.7); } 61% { opacity: 1; transform: scale(1.1); } 64%, 100% { opacity: 1; transform: none; } }
+      @keyframes liveIn { 0%, 56% { opacity: 0; } 61%, 100% { opacity: 1; } }
     }
     @media (prefers-reduced-motion: reduce) {
       .ps-preview .real { clip-path: none; }
@@ -433,11 +454,11 @@
           <div class="pscene ps-preview" aria-hidden="true"><span class="stage">
             <span class="bframe">
               <span class="bbar"></span>
-              <span class="pg wire"><b class="hero"></b><b class="tl1"></b><b class="tl2"></b><b class="btn2"></b></span>
-              <span class="pg real"><b class="hero"></b><b class="tl1"></b><b class="tl2"></b><b class="btn2"></b></span>
+              <span class="livebadge">Live preview</span>
+              <span class="pg wire"><b class="pnav"></b><b class="hero"></b><b class="pimg"></b><b class="tl1"></b><b class="tl2"></b><b class="btn2"></b></span>
+              <span class="pg real"><b class="pnav"></b><b class="hero"></b><b class="pimg"></b><b class="tl1"></b><b class="tl2"></b><b class="btn2"></b></span>
               <span class="scan"></span>
             </span>
-            <span class="livebadge">Live preview</span>
           </span></div>
         </a>
       </div>
