@@ -8,6 +8,111 @@
   <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
   <link rel="stylesheet" href="site.css?v=14">
   <link rel="canonical" href="https://coderippletech.com/">
+  <style>
+    /* home-page-only: next-gen product cards (site.css untouched) */
+    .product { --pc: var(--accent); --mx: 50%; --my: 50%; position: relative; overflow: hidden; }
+    .product.green { --pc: #34d399; }
+    .product.blue { --pc: #4da3ff; }
+    .product.teal { --pc: var(--accent); }
+    .product.purple { --pc: #7d66fd; }
+    .product.sky { --pc: #38bdf8; }
+
+    /* cursor-tracked spotlight + accent edge */
+    .product::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+      transition: opacity 0.35s ease;
+      background: radial-gradient(300px circle at var(--mx) var(--my),
+        color-mix(in srgb, var(--pc) 11%, transparent), transparent 65%);
+    }
+    .product:hover::after { opacity: 1; }
+    .product::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--pc), transparent);
+      opacity: 0.45; transition: opacity 0.35s ease;
+    }
+    .product:hover::before { opacity: 1; }
+    .product:hover { border-color: color-mix(in srgb, var(--pc) 40%, transparent); box-shadow: 0 18px 60px color-mix(in srgb, var(--pc) 12%, transparent); }
+    .product .tag { color: color-mix(in srgb, var(--pc) 75%, white); }
+
+    /* micro-demo scenes — one tiny living vignette per product */
+    .pscene {
+      position: relative; margin-top: 22px; height: 96px; border-radius: 10px;
+      border: 1px solid var(--card-border); overflow: hidden;
+      background: linear-gradient(180deg, #0e1520, #0a0f18);
+    }
+    .pscene * { position: absolute; }
+
+    /* RippleRoot — one command, everything arrives */
+    .ps-root { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; }
+    .ps-root .ln { left: 14px; color: var(--muted); opacity: 0; }
+    .ps-root .ln i { font-style: normal; color: #34d399; }
+    .ps-root .ln.cmd { top: 12px; color: #d7e2ef; }
+    .ps-root .ln.cmd::before { content: "$ "; color: #34d399; }
+    .ps-root .l2 { top: 32px; } .ps-root .l3 { top: 50px; } .ps-root .l4 { top: 68px; }
+
+    /* RippleSnap — windows snap into a tidy grid */
+    .ps-snap .w { border-radius: 5px; border: 1px solid rgba(255,255,255,0.18); background: linear-gradient(180deg, #223146, #1a2636); }
+    .ps-snap .w::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; border-radius: 5px 5px 0 0; background: rgba(255,255,255,0.12); }
+    .ps-snap .w1 { width: 44%; height: 68px; top: 14px; left: 12px; }
+    .ps-snap .w2 { width: 34%; height: 30px; top: 14px; right: 12px; }
+    .ps-snap .w3 { width: 34%; height: 30px; bottom: 14px; right: 12px; }
+
+    /* Ripplebug — a capture lands, severity pulses */
+    .ps-bug .cap {
+      top: 14px; left: 14px; right: 14px; height: 34px; border-radius: 7px;
+      border: 1px solid rgba(34, 211, 206, 0.3); background: rgba(34, 211, 206, 0.06);
+      font-size: 11.5px; color: #d7e2ef; line-height: 32px; padding-left: 40px;
+    }
+    .ps-bug .sev {
+      top: 21px; left: 24px; width: 8px; height: 18px; border-radius: 4px;
+      background: #fbbf24;
+    }
+    .ps-bug .con { left: 14px; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.1); }
+    .ps-bug .c1 { top: 62px; width: 62%; } .ps-bug .c2 { top: 74px; width: 40%; }
+
+    /* Ripple Import — rows flow into board columns */
+    .ps-import .row { left: 12px; width: 30%; height: 12px; border-radius: 4px; background: rgba(255,255,255,0.14); }
+    .ps-import .r1 { top: 18px; } .ps-import .r2 { top: 40px; } .ps-import .r3 { top: 62px; }
+    .ps-import .col { width: 26%; top: 14px; bottom: 14px; border-radius: 6px; border: 1px dashed rgba(125, 102, 253, 0.45); background: rgba(125, 102, 253, 0.08); }
+    .ps-import .k1 { right: 42px; } .ps-import .k2 { right: 12px; width: 5%; opacity: 0.5; }
+    .ps-import .arrow { top: 40px; left: 45%; color: #a99bff; font-size: 14px; }
+
+    /* Ripple Preview — wireframe becomes the real page */
+    .ps-preview .blk { left: 14px; right: 14px; border-radius: 6px; }
+    .ps-preview .wire { border: 1px dashed rgba(255,255,255,0.25); background: repeating-linear-gradient(45deg, rgba(255,255,255,0.04) 0 8px, transparent 8px 16px); }
+    .ps-preview .real { border: 1px solid rgba(56, 189, 248, 0.4); background: linear-gradient(120deg, rgba(56, 189, 248, 0.2), rgba(125, 102, 253, 0.18)); opacity: 0; }
+    .ps-preview .b1 { top: 14px; height: 32px; }
+    .ps-preview .b2 { top: 54px; height: 28px; width: 55%; right: auto; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .ps-root .ln { animation: rootLn 7s ease infinite; }
+      .ps-root .l2 { animation-delay: 0.8s; } .ps-root .l3 { animation-delay: 1.4s; } .ps-root .l4 { animation-delay: 2s; }
+      @keyframes rootLn { 0% { opacity: 0; transform: translateY(4px); } 8%, 78% { opacity: 1; transform: none; } 90%, 100% { opacity: 0; } }
+
+      .ps-snap .w { animation: 7s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+      .ps-snap .w1 { animation-name: snap1; } .ps-snap .w2 { animation-name: snap2; } .ps-snap .w3 { animation-name: snap3; }
+      @keyframes snap1 { 0% { transform: translate(26px, 8px) rotate(3deg); } 18%, 82% { transform: none; } 100% { transform: translate(26px, 8px) rotate(3deg); } }
+      @keyframes snap2 { 0% { transform: translate(-30px, 14px) rotate(-4deg); } 22%, 82% { transform: none; } 100% { transform: translate(-30px, 14px) rotate(-4deg); } }
+      @keyframes snap3 { 0% { transform: translate(-14px, -18px) rotate(2deg); } 26%, 82% { transform: none; } 100% { transform: translate(-14px, -18px) rotate(2deg); } }
+
+      .ps-bug .cap { opacity: 0; animation: bugCap 6.5s ease infinite; }
+      @keyframes bugCap { 0% { opacity: 0; transform: translateY(-10px); } 10%, 85% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; } }
+      .ps-bug .sev { animation: sevPulse 6.5s ease infinite; }
+      @keyframes sevPulse { 0%, 12% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); } 22% { box-shadow: 0 0 14px 3px rgba(251, 191, 36, 0.5); } 40%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); } }
+      .ps-bug .con { transform-origin: left; transform: scaleX(0); animation: conLn 6.5s ease infinite; }
+      .ps-bug .c2 { animation-delay: 0.35s; }
+      @keyframes conLn { 0%, 18% { transform: scaleX(0); } 30%, 88% { transform: scaleX(1); } 96%, 100% { transform: scaleX(0); } }
+
+      .ps-import .row { animation: rowFlow 6s ease infinite; }
+      .ps-import .r2 { animation-delay: 0.5s; } .ps-import .r3 { animation-delay: 1s; }
+      @keyframes rowFlow { 0%, 8% { transform: none; opacity: 1; } 55% { transform: translateX(150%); opacity: 1; } 62%, 100% { transform: translateX(150%); opacity: 0; } }
+      .ps-import .col { animation: colGlow 6s ease infinite; }
+      @keyframes colGlow { 0%, 30% { background: rgba(125, 102, 253, 0.08); } 60% { background: rgba(125, 102, 253, 0.22); } 100% { background: rgba(125, 102, 253, 0.08); } }
+
+      .ps-preview .real { animation: previewIn 7s ease infinite; }
+      @keyframes previewIn { 0%, 25% { opacity: 0; } 45%, 80% { opacity: 1; } 95%, 100% { opacity: 0; } }
+    }
+  </style>
   <meta name="theme-color" content="#0a0e14">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="CodeRipple Tech">
@@ -100,6 +205,12 @@
           <div class="plinks">
             <span class="btn btn-green">See how it works &rarr;</span>
           </div>
+          <div class="pscene ps-root" aria-hidden="true">
+            <span class="ln cmd">rr up</span>
+            <span class="ln l2">repos <i>&#10003;</i></span>
+            <span class="ln l3">env files <i>&#10003;</i></span>
+            <span class="ln l4">secrets sealed <i>&#10003;</i></span>
+          </div>
         </a>
 
         <a class="product blue reveal" href="/ripplesnap/">
@@ -111,6 +222,9 @@
           across every monitor. Dock your laptop and your desk restores itself.</p>
           <div class="plinks">
             <span class="btn btn-blue">See how it works →</span>
+          </div>
+          <div class="pscene ps-snap" aria-hidden="true">
+            <span class="w w1"></span><span class="w w2"></span><span class="w w3"></span>
           </div>
         </a>
 
@@ -125,6 +239,10 @@
           <div class="plinks">
             <span class="btn btn-teal">See how it works →</span>
           </div>
+          <div class="pscene ps-bug" aria-hidden="true">
+            <span class="cap">Login fails on Safari</span><span class="sev"></span>
+            <span class="con c1"></span><span class="con c2"></span>
+          </div>
         </a>
 
         <a class="product purple reveal" href="/ripple-import/">
@@ -137,6 +255,11 @@
           <div class="plinks">
             <span class="btn btn-purple">See how it works →</span>
           </div>
+          <div class="pscene ps-import" aria-hidden="true">
+            <span class="row r1"></span><span class="row r2"></span><span class="row r3"></span>
+            <span class="arrow">&rarr;</span>
+            <span class="col k1"></span><span class="col k2"></span>
+          </div>
         </a>
 
         <a class="product sky reveal" href="/ripple-preview/">
@@ -148,6 +271,10 @@
           see the real page while they edit it. Free and open source.</p>
           <div class="plinks">
             <span class="btn btn-sky">See how it works →</span>
+          </div>
+          <div class="pscene ps-preview" aria-hidden="true">
+            <span class="blk wire b1"></span><span class="blk real b1"></span>
+            <span class="blk wire b2"></span><span class="blk real b2"></span>
           </div>
         </a>
       </div>
@@ -200,6 +327,14 @@
       if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
     }), { threshold: 0.12 });
     document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+    document.querySelectorAll(".product").forEach((card) => {
+      card.addEventListener("pointermove", (e) => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty("--mx", (e.clientX - r.left) + "px");
+        card.style.setProperty("--my", (e.clientY - r.top) + "px");
+      });
+    });
 
     const drop = document.querySelector(".nav-drop");
     const dropBtn = drop.querySelector(".nav-drop-btn");
