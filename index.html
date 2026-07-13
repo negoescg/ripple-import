@@ -34,83 +34,220 @@
     .product:hover { border-color: color-mix(in srgb, var(--pc) 40%, transparent); box-shadow: 0 18px 60px color-mix(in srgb, var(--pc) 12%, transparent); }
     .product .tag { color: color-mix(in srgb, var(--pc) 75%, white); }
 
-    /* micro-demo scenes — one tiny living vignette per product */
+    /* micro-demo scenes — one product story per card, shared 8s timeline,
+       seamless loops (stage fades at the seam), reduced-motion shows the
+       finished composition (static styles ARE the final state). */
     .pscene {
-      position: relative; margin-top: 22px; height: 96px; border-radius: 10px;
+      position: relative; margin-top: 22px; height: 132px; max-width: 560px; border-radius: 10px;
       border: 1px solid var(--card-border); overflow: hidden;
       background: linear-gradient(180deg, #0e1520, #0a0f18);
     }
-    .pscene * { position: absolute; }
-
-    /* RippleRoot — one command, everything arrives */
-    .ps-root { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; }
-    .ps-root .ln { left: 14px; color: var(--muted); opacity: 0; }
-    .ps-root .ln i { font-style: normal; color: #34d399; }
-    .ps-root .ln.cmd { top: 12px; color: #d7e2ef; }
-    .ps-root .ln.cmd::before { content: "$ "; color: #34d399; }
-    .ps-root .l2 { top: 32px; } .ps-root .l3 { top: 50px; } .ps-root .l4 { top: 68px; }
-
-    /* RippleSnap — windows snap into a tidy grid */
-    .ps-snap .w { border-radius: 5px; border: 1px solid rgba(255,255,255,0.18); background: linear-gradient(180deg, #223146, #1a2636); }
-    .ps-snap .w::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; border-radius: 5px 5px 0 0; background: rgba(255,255,255,0.12); }
-    .ps-snap .w1 { width: 44%; height: 68px; top: 14px; left: 12px; }
-    .ps-snap .w2 { width: 34%; height: 30px; top: 14px; right: 12px; }
-    .ps-snap .w3 { width: 34%; height: 30px; bottom: 14px; right: 12px; }
-
-    /* Ripplebug — a capture lands, severity pulses */
-    .ps-bug .cap {
-      top: 14px; left: 14px; right: 14px; height: 34px; border-radius: 7px;
-      border: 1px solid rgba(34, 211, 206, 0.3); background: rgba(34, 211, 206, 0.06);
-      font-size: 11.5px; color: #d7e2ef; line-height: 32px; padding-left: 40px;
-    }
-    .ps-bug .sev {
-      top: 21px; left: 24px; width: 8px; height: 18px; border-radius: 4px;
-      background: #fbbf24;
-    }
-    .ps-bug .con { left: 14px; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.1); }
-    .ps-bug .c1 { top: 62px; width: 62%; } .ps-bug .c2 { top: 74px; width: 40%; }
-
-    /* Ripple Import — rows flow into board columns */
-    .ps-import .row { left: 12px; width: 30%; height: 12px; border-radius: 4px; background: rgba(255,255,255,0.14); }
-    .ps-import .r1 { top: 18px; } .ps-import .r2 { top: 40px; } .ps-import .r3 { top: 62px; }
-    .ps-import .col { width: 26%; top: 14px; bottom: 14px; border-radius: 6px; border: 1px dashed rgba(125, 102, 253, 0.45); background: rgba(125, 102, 253, 0.08); }
-    .ps-import .k1 { right: 42px; } .ps-import .k2 { right: 12px; width: 5%; opacity: 0.5; }
-    .ps-import .arrow { top: 40px; left: 45%; color: #a99bff; font-size: 14px; }
-
-    /* Ripple Preview — wireframe becomes the real page */
-    .ps-preview .blk { left: 14px; right: 14px; border-radius: 6px; }
-    .ps-preview .wire { border: 1px dashed rgba(255,255,255,0.25); background: repeating-linear-gradient(45deg, rgba(255,255,255,0.04) 0 8px, transparent 8px 16px); }
-    .ps-preview .real { border: 1px solid rgba(56, 189, 248, 0.4); background: linear-gradient(120deg, rgba(56, 189, 248, 0.2), rgba(125, 102, 253, 0.18)); opacity: 0; }
-    .ps-preview .b1 { top: 14px; height: 32px; }
-    .ps-preview .b2 { top: 54px; height: 28px; width: 55%; right: auto; }
-
+    .pscene .stage, .pscene .stage * { position: absolute; }
+    .pscene .stage { inset: 0; }
     @media (prefers-reduced-motion: no-preference) {
-      .ps-root .ln { animation: rootLn 7s ease infinite; }
-      .ps-root .l2 { animation-delay: 0.8s; } .ps-root .l3 { animation-delay: 1.4s; } .ps-root .l4 { animation-delay: 2s; }
-      @keyframes rootLn { 0% { opacity: 0; transform: translateY(4px); } 8%, 78% { opacity: 1; transform: none; } 90%, 100% { opacity: 0; } }
+      .pscene .stage { animation: stageLoop 8s linear infinite; }
+      @keyframes stageLoop { 0% { opacity: 0; } 3%, 93% { opacity: 1; } 99%, 100% { opacity: 0; } }
+    }
 
-      .ps-snap .w { animation: 7s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-      .ps-snap .w1 { animation-name: snap1; } .ps-snap .w2 { animation-name: snap2; } .ps-snap .w3 { animation-name: snap3; }
-      @keyframes snap1 { 0% { transform: translate(26px, 8px) rotate(3deg); } 18%, 82% { transform: none; } 100% { transform: translate(26px, 8px) rotate(3deg); } }
-      @keyframes snap2 { 0% { transform: translate(-30px, 14px) rotate(-4deg); } 22%, 82% { transform: none; } 100% { transform: translate(-30px, 14px) rotate(-4deg); } }
-      @keyframes snap3 { 0% { transform: translate(-14px, -18px) rotate(2deg); } 26%, 82% { transform: none; } 100% { transform: translate(-14px, -18px) rotate(2deg); } }
+    /* ---- RippleRoot: `rr up` types, everything arrives ---- */
+    .ps-root { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+    .ps-root .tbar { top: 0; left: 0; right: 0; height: 20px; background: rgba(255,255,255,0.045); border-bottom: 1px solid var(--card-border); }
+    .ps-root .tbar::before { content: ""; position: absolute; top: 7px; left: 10px; width: 6px; height: 6px; border-radius: 50%; background: #ff5f57; box-shadow: 11px 0 0 #febc2e, 22px 0 0 #28c840; }
+    .ps-root .ln { left: 14px; color: var(--muted); }
+    .ps-root .ln i { font-style: normal; color: #34d399; }
+    .ps-root .cmd { top: 30px; color: #e6edf6; }
+    .ps-root .cmd::before { content: "$ "; color: #34d399; }
+    .ps-root .cmd b, .ps-root .cmd u { position: static; }
+    .ps-root .cmd b { display: inline-block; overflow: hidden; white-space: nowrap; vertical-align: bottom; width: 5ch; font-weight: 400; }
+    .ps-root .cmd u { text-decoration: none; border-left: 6px solid #34d399; height: 12px; display: inline-block; vertical-align: -1px; margin-left: 2px; }
+    .ps-root .l2 { top: 56px; } .ps-root .l3 { top: 78px; } .ps-root .l4 { top: 100px; }
+    @media (prefers-reduced-motion: no-preference) {
+      .ps-root .cmd b { animation: rootType 8s steps(5, end) infinite; }
+      @keyframes rootType { 0%, 4% { width: 0ch; } 14%, 100% { width: 5ch; } }
+      .ps-root .cmd u { animation: rootCaret 8s linear infinite; }
+      @keyframes rootCaret { 0%, 6% { opacity: 1; } 8% { opacity: 0; } 10% { opacity: 1; } 12% { opacity: 0; } 14% { opacity: 1; } 16% { opacity: 0; } 18% { opacity: 1; } 20%, 100% { opacity: 0; } }
+      .ps-root .l2 { animation: rootLn2 8s ease infinite; }
+      .ps-root .l3 { animation: rootLn3 8s ease infinite; }
+      .ps-root .l4 { animation: rootLn4 8s ease infinite; }
+      @keyframes rootLn2 { 0%, 22% { opacity: 0; transform: translateY(5px); } 27%, 100% { opacity: 1; transform: none; } }
+      @keyframes rootLn3 { 0%, 32% { opacity: 0; transform: translateY(5px); } 37%, 100% { opacity: 1; transform: none; } }
+      @keyframes rootLn4 { 0%, 42% { opacity: 0; transform: translateY(5px); } 47%, 100% { opacity: 1; transform: none; } }
+    }
 
-      .ps-bug .cap { opacity: 0; animation: bugCap 6.5s ease infinite; }
-      @keyframes bugCap { 0% { opacity: 0; transform: translateY(-10px); } 10%, 85% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; } }
-      .ps-bug .sev { animation: sevPulse 6.5s ease infinite; }
-      @keyframes sevPulse { 0%, 12% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); } 22% { box-shadow: 0 0 14px 3px rgba(251, 191, 36, 0.5); } 40%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); } }
-      .ps-bug .con { transform-origin: left; transform: scaleX(0); animation: conLn 6.5s ease infinite; }
-      .ps-bug .c2 { animation-delay: 0.35s; }
-      @keyframes conLn { 0%, 18% { transform: scaleX(0); } 30%, 88% { transform: scaleX(1); } 96%, 100% { transform: scaleX(0); } }
+    /* ---- RippleSnap: messy windows glide into a tiled layout ---- */
+    .ps-snap .mbar { top: 0; left: 0; right: 0; height: 12px; background: rgba(255,255,255,0.05); border-bottom: 1px solid var(--card-border); }
+    .ps-snap .win { border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: linear-gradient(180deg, #24344b, #1a2636); box-shadow: 0 10px 24px rgba(0,0,0,0.45); }
+    .ps-snap .win b { top: 0; left: 0; right: 0; height: 9px; border-radius: 6px 6px 0 0; background: rgba(255,255,255,0.1); }
+    .ps-snap .win b::before { content: ""; position: absolute; top: 3px; left: 5px; width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,0.45); box-shadow: 6px 0 0 rgba(255,255,255,0.3), 12px 0 0 rgba(255,255,255,0.2); }
+    .ps-snap .win::after { content: ""; position: absolute; left: 8px; right: 30%; top: 17px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.14); box-shadow: 0 9px 0 rgba(255,255,255,0.09); }
+    .ps-snap .w1 { left: 12px; top: 22px; width: 45%; height: 96px; }
+    .ps-snap .w2 { right: 12px; top: 22px; width: 42%; height: 44px; }
+    .ps-snap .w3 { right: 12px; bottom: 12px; width: 42%; height: 44px; }
+    .ps-snap .slot { border: 1.5px dashed rgba(77, 163, 255, 0.65); border-radius: 7px; opacity: 0; }
+    .ps-snap .s1 { left: 10px; top: 20px; width: calc(45% + 4px); height: 100px; }
+    .ps-snap .s2 { right: 10px; top: 20px; width: calc(42% + 4px); height: 48px; }
+    .ps-snap .s3 { right: 10px; bottom: 10px; width: calc(42% + 4px); height: 48px; }
+    .ps-snap .kchip {
+      left: 50%; top: 50%; transform: translate(-50%, -50%);
+      font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #bfdcff;
+      background: rgba(77, 163, 255, 0.16); border: 1px solid rgba(77, 163, 255, 0.45);
+      border-radius: 7px; padding: 4px 10px; opacity: 0; z-index: 2;
+      box-shadow: 0 6px 24px rgba(77, 163, 255, 0.25);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .ps-snap .w1 { animation: snapW1 8s ease infinite; }
+      .ps-snap .w2 { animation: snapW2 8s ease infinite; }
+      .ps-snap .w3 { animation: snapW3 8s ease infinite; }
+      @keyframes snapW1 {
+        0%, 30% { transform: translate(26px, 6px) rotate(3.5deg) scale(0.97); animation-timing-function: cubic-bezier(0.34, 1.4, 0.64, 1); }
+        42%, 100% { transform: none; }
+      }
+      @keyframes snapW2 {
+        0%, 34% { transform: translate(-42px, 20px) rotate(-5deg) scale(0.97); animation-timing-function: cubic-bezier(0.34, 1.4, 0.64, 1); }
+        46%, 100% { transform: none; }
+      }
+      @keyframes snapW3 {
+        0%, 38% { transform: translate(-18px, -24px) rotate(2.5deg) scale(0.97); animation-timing-function: cubic-bezier(0.34, 1.4, 0.64, 1); }
+        50%, 100% { transform: none; }
+      }
+      .ps-snap .kchip { animation: snapChip 8s ease infinite; }
+      @keyframes snapChip { 0%, 22% { opacity: 0; transform: translate(-50%, -50%) scale(0.6); } 27% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); } 30%, 52% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 58%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); } }
+      .ps-snap .s1 { animation: snapSlot1 8s ease infinite; }
+      .ps-snap .s2 { animation: snapSlot2 8s ease infinite; }
+      .ps-snap .s3 { animation: snapSlot3 8s ease infinite; }
+      @keyframes snapSlot1 { 0%, 28% { opacity: 0; } 32%, 42% { opacity: 0.9; } 50%, 100% { opacity: 0; } }
+      @keyframes snapSlot2 { 0%, 32% { opacity: 0; } 36%, 46% { opacity: 0.9; } 54%, 100% { opacity: 0; } }
+      @keyframes snapSlot3 { 0%, 36% { opacity: 0; } 40%, 50% { opacity: 0.9; } 58%, 100% { opacity: 0; } }
+    }
 
-      .ps-import .row { animation: rowFlow 6s ease infinite; }
-      .ps-import .r2 { animation-delay: 0.5s; } .ps-import .r3 { animation-delay: 1s; }
-      @keyframes rowFlow { 0%, 8% { transform: none; opacity: 1; } 55% { transform: translateX(150%); opacity: 1; } 62%, 100% { transform: translateX(150%); opacity: 0; } }
-      .ps-import .col { animation: colGlow 6s ease infinite; }
-      @keyframes colGlow { 0%, 30% { background: rgba(125, 102, 253, 0.08); } 60% { background: rgba(125, 102, 253, 0.22); } 100% { background: rgba(125, 102, 253, 0.08); } }
+    /* ---- Ripplebug: error → flash → capture card assembles → filed ---- */
+    .ps-bug .page { left: 12px; top: 12px; bottom: 12px; width: 34%; border-radius: 7px; border: 1px solid rgba(255,255,255,0.14); background: #131c29; }
+    .ps-bug .page::before { content: ""; position: absolute; left: 8px; right: 8px; top: 10px; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.13); box-shadow: 0 11px 0 rgba(255,255,255,0.09), 0 22px 0 rgba(255,255,255,0.07), 0 33px 0 rgba(255,255,255,0.05); }
+    .ps-bug .err {
+      left: 22px; bottom: 22px; width: 22%; height: 20px; border-radius: 5px;
+      background: rgba(239, 68, 68, 0.16); border: 1px solid rgba(239, 68, 68, 0.5);
+      color: #fda4a4; font-size: 10px; line-height: 18px; text-align: center;
+    }
+    .ps-bug .flash { left: 12px; top: 12px; bottom: 12px; width: 34%; border-radius: 7px; background: #fff; opacity: 0; }
+    .ps-bug .card {
+      right: 12px; top: 12px; width: 56%; height: 74px; border-radius: 8px;
+      border: 1px solid rgba(34, 211, 206, 0.35); background: rgba(34, 211, 206, 0.05);
+    }
+    .ps-bug .thumb { left: 8px; top: 8px; width: 26px; height: 26px; border-radius: 5px; background: linear-gradient(135deg, #1f9d98, #22d3ce 60%, #7d66fd); }
+    .ps-bug .titleln { left: 42px; top: 10px; font-size: 10.5px; color: #e6edf6; white-space: nowrap; }
+    .ps-bug .sevchip { left: 42px; top: 26px; font-size: 9px; font-weight: 700; color: #fbbf24; background: rgba(251, 191, 36, 0.14); border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 999px; padding: 1px 8px; }
+    .ps-bug .cl { left: 8px; height: 5px; border-radius: 3px; transform-origin: left; }
+    .ps-bug .cl1 { top: 48px; width: 70%; background: rgba(239, 68, 68, 0.35); }
+    .ps-bug .cl2 { top: 58px; width: 48%; background: rgba(255,255,255,0.12); }
+    .ps-bug .filed {
+      right: 12px; bottom: 12px; font-size: 10px; font-weight: 600; color: #6ee7b7;
+      background: rgba(52, 211, 153, 0.12); border: 1px solid rgba(52, 211, 153, 0.4);
+      border-radius: 999px; padding: 3px 10px;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .ps-bug .err { animation: bugErr 8s ease infinite; }
+      @keyframes bugErr { 0%, 6% { transform: none; } 7% { transform: translateX(-2px); } 8% { transform: translateX(2px); } 9% { transform: translateX(-2px); } 10% { transform: none; } 100% { transform: none; } }
+      .ps-bug .flash { animation: bugFlash 8s ease infinite; }
+      @keyframes bugFlash { 0%, 12% { opacity: 0; } 14% { opacity: 0.85; } 18%, 100% { opacity: 0; } }
+      .ps-bug .card { animation: bugCard 8s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+      @keyframes bugCard { 0%, 15% { opacity: 0; transform: translateY(10px) scale(0.97); } 22%, 100% { opacity: 1; transform: none; } }
+      .ps-bug .thumb { animation: bugThumb 8s ease infinite; }
+      @keyframes bugThumb { 0%, 20% { opacity: 0; transform: scale(0.5); } 26%, 100% { opacity: 1; transform: none; } }
+      .ps-bug .titleln { animation: bugTitle 8s ease infinite; }
+      @keyframes bugTitle { 0%, 25% { opacity: 0; } 31%, 100% { opacity: 1; } }
+      .ps-bug .sevchip { animation: bugSev 8s ease infinite; }
+      @keyframes bugSev { 0%, 30% { opacity: 0; transform: scale(0.6); } 35% { opacity: 1; transform: scale(1.15); } 38%, 100% { opacity: 1; transform: none; } }
+      .ps-bug .cl { animation: bugCl 8s ease infinite; }
+      .ps-bug .cl2 { animation-name: bugCl2; }
+      @keyframes bugCl { 0%, 38% { transform: scaleX(0); } 46%, 100% { transform: scaleX(1); } }
+      @keyframes bugCl2 { 0%, 42% { transform: scaleX(0); } 50%, 100% { transform: scaleX(1); } }
+      .ps-bug .filed { animation: bugFiled 8s ease infinite; }
+      @keyframes bugFiled { 0%, 52% { opacity: 0; transform: scale(0.7) translateY(4px); } 58% { opacity: 1; transform: scale(1.08); } 61%, 100% { opacity: 1; transform: none; } }
+    }
 
-      .ps-preview .real { animation: previewIn 7s ease infinite; }
-      @keyframes previewIn { 0%, 25% { opacity: 0; } 45%, 80% { opacity: 1; } 95%, 100% { opacity: 0; } }
+    /* ---- Ripple Import: spreadsheet rows fly into a monday-style board ---- */
+    .ps-import .sheet { left: 12px; top: 12px; bottom: 12px; width: 36%; border-radius: 7px; border: 1px solid rgba(255,255,255,0.14); background: #121a26; overflow: hidden; }
+    .ps-import .sheet::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent calc(33% - 1px), rgba(255,255,255,0.07) 33%, transparent calc(33% + 1px)), linear-gradient(90deg, transparent calc(66% - 1px), rgba(255,255,255,0.07) 66%, transparent calc(66% + 1px)); }
+    .ps-import .hrow { left: 0; right: 0; top: 0; height: 22px; background: rgba(255,255,255,0.07); border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .ps-import .trow { left: 0; right: 0; height: 26px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .ps-import .t1 { top: 22px; } .ps-import .t2 { top: 48px; } .ps-import .t3 { top: 74px; }
+    .ps-import .trow::before { content: ""; position: absolute; left: 7px; top: 9px; width: 60%; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.16); }
+    .ps-import .fly { left: 14px; width: 32%; height: 18px; border-radius: 4px; background: linear-gradient(90deg, rgba(255,255,255,0.2), rgba(125, 102, 253, 0.45)); opacity: 0; }
+    .ps-import .f1 { top: 26px; } .ps-import .f2 { top: 52px; } .ps-import .f3 { top: 78px; }
+    .ps-import .mboard { right: 12px; top: 12px; bottom: 12px; width: 46%; border-radius: 7px; border: 1px solid rgba(125, 102, 253, 0.4); background: rgba(125, 102, 253, 0.06); overflow: hidden; }
+    .ps-import .bhead { left: 0; right: 0; top: 0; height: 20px; background: linear-gradient(90deg, rgba(125, 102, 253, 0.5), rgba(125, 102, 253, 0.25)); font-size: 9.5px; font-weight: 700; color: #e8e2ff; line-height: 20px; padding-left: 8px; letter-spacing: 0.04em; }
+    .ps-import .brow { left: 6px; right: 6px; height: 22px; border-radius: 4px; border: 1px dashed rgba(125, 102, 253, 0.35); }
+    .ps-import .b1 { top: 26px; } .ps-import .b2 { top: 52px; } .ps-import .b3 { top: 78px; }
+    .ps-import .brow::before { content: ""; position: absolute; left: 6px; top: 8px; width: 46%; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.2); opacity: 0; }
+    .ps-import .pill { right: 5px; top: 4px; width: 26px; height: 14px; border-radius: 4px; opacity: 0; }
+    .ps-import .p1 { background: #33c48d; } .ps-import .p2 { background: #fdab3d; } .ps-import .p3 { background: #579bfc; }
+    @media (prefers-reduced-motion: no-preference) {
+      .ps-import .fly { animation: 8s ease-in-out infinite; }
+      .ps-import .f1 { animation-name: flyRow1; } .ps-import .f2 { animation-name: flyRow2; } .ps-import .f3 { animation-name: flyRow3; }
+      @keyframes flyRow1 { 0%, 12% { opacity: 0; transform: none; } 15% { opacity: 1; } 27% { opacity: 1; transform: translateX(148%) translateY(12px); } 30%, 100% { opacity: 0; transform: translateX(148%) translateY(12px); } }
+      @keyframes flyRow2 { 0%, 26% { opacity: 0; transform: none; } 29% { opacity: 1; } 41% { opacity: 1; transform: translateX(148%) translateY(12px); } 44%, 100% { opacity: 0; transform: translateX(148%) translateY(12px); } }
+      @keyframes flyRow3 { 0%, 40% { opacity: 0; transform: none; } 43% { opacity: 1; } 55% { opacity: 1; transform: translateX(148%) translateY(12px); } 58%, 100% { opacity: 0; transform: translateX(148%) translateY(12px); } }
+      .ps-import .brow { animation: 8s ease infinite; }
+      .ps-import .b1 { animation-name: landRow1; } .ps-import .b2 { animation-name: landRow2; } .ps-import .b3 { animation-name: landRow3; }
+      @keyframes landRow1 { 0%, 26% { background: transparent; border-style: dashed; } 30%, 100% { background: rgba(125, 102, 253, 0.16); border-style: solid; } }
+      @keyframes landRow2 { 0%, 40% { background: transparent; border-style: dashed; } 44%, 100% { background: rgba(125, 102, 253, 0.16); border-style: solid; } }
+      @keyframes landRow3 { 0%, 54% { background: transparent; border-style: dashed; } 58%, 100% { background: rgba(125, 102, 253, 0.16); border-style: solid; } }
+      .ps-import .b1::before { animation: landLn1 8s ease infinite; }
+      .ps-import .b2::before { animation: landLn2 8s ease infinite; }
+      .ps-import .b3::before { animation: landLn3 8s ease infinite; }
+      @keyframes landLn1 { 0%, 27% { opacity: 0; } 31%, 100% { opacity: 1; } }
+      @keyframes landLn2 { 0%, 41% { opacity: 0; } 45%, 100% { opacity: 1; } }
+      @keyframes landLn3 { 0%, 55% { opacity: 0; } 59%, 100% { opacity: 1; } }
+      .ps-import .pill { animation: 8s ease infinite; }
+      .ps-import .p1 { animation-name: pillPop1; } .ps-import .p2 { animation-name: pillPop2; } .ps-import .p3 { animation-name: pillPop3; }
+      @keyframes pillPop1 { 0%, 28% { opacity: 0; transform: scale(0.5); } 33% { opacity: 1; transform: scale(1.15); } 36%, 100% { opacity: 1; transform: none; } }
+      @keyframes pillPop2 { 0%, 42% { opacity: 0; transform: scale(0.5); } 47% { opacity: 1; transform: scale(1.15); } 50%, 100% { opacity: 1; transform: none; } }
+      @keyframes pillPop3 { 0%, 56% { opacity: 0; transform: scale(0.5); } 61% { opacity: 1; transform: scale(1.15); } 64%, 100% { opacity: 1; transform: none; } }
+      .ps-import .trow::before { animation: 8s ease infinite; }
+      .ps-import .t1::before { animation-name: srcDim1; } .ps-import .t2::before { animation-name: srcDim2; } .ps-import .t3::before { animation-name: srcDim3; }
+      @keyframes srcDim1 { 0%, 26% { opacity: 1; } 30%, 100% { opacity: 0.3; } }
+      @keyframes srcDim2 { 0%, 40% { opacity: 1; } 44%, 100% { opacity: 0.3; } }
+      @keyframes srcDim3 { 0%, 54% { opacity: 1; } 58%, 100% { opacity: 0.3; } }
+    }
+
+    /* ---- Ripple Preview: scanline renders the wireframe into the real page ---- */
+    .ps-preview .bframe { left: 12px; right: 12px; top: 10px; bottom: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.14); background: #101826; overflow: hidden; }
+    .ps-preview .bbar { left: 0; right: 0; top: 0; height: 16px; background: rgba(255,255,255,0.05); border-bottom: 1px solid var(--card-border); }
+    .ps-preview .bbar::before { content: ""; position: absolute; top: 5px; left: 8px; width: 5px; height: 5px; border-radius: 50%; background: #ff5f57; box-shadow: 9px 0 0 #febc2e, 18px 0 0 #28c840; }
+    .ps-preview .pg { left: 10px; right: 10px; top: 24px; bottom: 8px; }
+    .ps-preview .pg b { left: 0; border-radius: 4px; }
+    .ps-preview .hero { top: 0; height: 34px; right: 0; }
+    .ps-preview .tl1 { top: 42px; height: 7px; width: 72%; }
+    .ps-preview .tl2 { top: 55px; height: 7px; width: 52%; }
+    .ps-preview .btn2 { top: 70px; height: 14px; width: 64px; border-radius: 7px; }
+    .ps-preview .wire b { border: 1px dashed rgba(255,255,255,0.28); background: repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0 7px, transparent 7px 14px); }
+    .ps-preview .real b { border: 1px solid transparent; }
+    .ps-preview .real .hero { background: linear-gradient(120deg, #1e6f9e, #38bdf8 55%, #7d66fd); }
+    .ps-preview .real .tl1, .ps-preview .real .tl2 { background: rgba(255,255,255,0.4); border: none; }
+    .ps-preview .real .btn2 { background: #38bdf8; }
+    .ps-preview .real { clip-path: inset(0 0 100% 0); }
+    .ps-preview .scan { left: 10px; right: 10px; top: 24px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, transparent, #38bdf8, transparent); box-shadow: 0 0 14px 2px rgba(56, 189, 248, 0.5); opacity: 0; }
+    .ps-preview .livebadge {
+      right: 18px; bottom: 16px; font-size: 9.5px; font-weight: 700; color: #7dd3fc;
+      background: rgba(56, 189, 248, 0.14); border: 1px solid rgba(56, 189, 248, 0.45);
+      border-radius: 999px; padding: 2px 9px; opacity: 0; z-index: 2;
+    }
+    .ps-preview .livebadge::before { content: "●"; margin-right: 4px; font-size: 8px; color: #38bdf8; }
+    @media (prefers-reduced-motion: no-preference) {
+      .ps-preview .real { animation: renderIn 8s ease-in-out infinite; }
+      @keyframes renderIn { 0%, 18% { clip-path: inset(0 0 100% 0); } 55%, 100% { clip-path: inset(0 0 0% 0); } }
+      .ps-preview .scan { animation: scanMove 8s ease-in-out infinite; }
+      @keyframes scanMove { 0%, 16% { transform: translateY(0); opacity: 0; } 18% { opacity: 1; } 54% { transform: translateY(92px); opacity: 1; } 57%, 100% { transform: translateY(92px); opacity: 0; } }
+      .ps-preview .livebadge { animation: liveIn 8s ease infinite; }
+      @keyframes liveIn { 0%, 56% { opacity: 0; transform: scale(0.7); } 61% { opacity: 1; transform: scale(1.1); } 64%, 100% { opacity: 1; transform: none; } }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ps-preview .real { clip-path: none; }
+      .ps-preview .scan { display: none; }
+      .ps-snap .kchip, .ps-import .fly { display: none; }
+      .ps-bug .filed, .ps-bug .sevchip, .ps-import .pill, .ps-preview .livebadge { opacity: 1; }
+      .ps-import .brow { background: rgba(125, 102, 253, 0.16); border-style: solid; }
+      .ps-import .brow::before { opacity: 1; }
     }
   </style>
   <meta name="theme-color" content="#0a0e14">
@@ -205,12 +342,13 @@
           <div class="plinks">
             <span class="btn btn-green">See how it works &rarr;</span>
           </div>
-          <div class="pscene ps-root" aria-hidden="true">
-            <span class="ln cmd">rr up</span>
+          <div class="pscene ps-root" aria-hidden="true"><span class="stage">
+            <span class="tbar"></span>
+            <span class="ln cmd"><b>rr up</b><u></u></span>
             <span class="ln l2">repos <i>&#10003;</i></span>
             <span class="ln l3">env files <i>&#10003;</i></span>
             <span class="ln l4">secrets sealed <i>&#10003;</i></span>
-          </div>
+          </span></div>
         </a>
 
         <a class="product blue reveal" href="/ripplesnap/">
@@ -223,9 +361,14 @@
           <div class="plinks">
             <span class="btn btn-blue">See how it works →</span>
           </div>
-          <div class="pscene ps-snap" aria-hidden="true">
-            <span class="w w1"></span><span class="w w2"></span><span class="w w3"></span>
-          </div>
+          <div class="pscene ps-snap" aria-hidden="true"><span class="stage">
+            <span class="mbar"></span>
+            <span class="slot s1"></span><span class="slot s2"></span><span class="slot s3"></span>
+            <span class="win w1"><b></b></span>
+            <span class="win w2"><b></b></span>
+            <span class="win w3"><b></b></span>
+            <span class="kchip">&#8997; + &#8594;</span>
+          </span></div>
         </a>
 
         <a class="product teal reveal" href="/ripplebug/">
@@ -239,10 +382,18 @@
           <div class="plinks">
             <span class="btn btn-teal">See how it works →</span>
           </div>
-          <div class="pscene ps-bug" aria-hidden="true">
-            <span class="cap">Login fails on Safari</span><span class="sev"></span>
-            <span class="con c1"></span><span class="con c2"></span>
-          </div>
+          <div class="pscene ps-bug" aria-hidden="true"><span class="stage">
+            <span class="page"></span>
+            <span class="err">error</span>
+            <span class="flash"></span>
+            <span class="card">
+              <span class="thumb"></span>
+              <span class="titleln">Login fails on Safari</span>
+              <span class="sevchip">High</span>
+              <span class="cl cl1"></span><span class="cl cl2"></span>
+            </span>
+            <span class="filed">&#10003; Filed &#8594; GitHub #482</span>
+          </span></div>
         </a>
 
         <a class="product purple reveal" href="/ripple-import/">
@@ -255,11 +406,18 @@
           <div class="plinks">
             <span class="btn btn-purple">See how it works →</span>
           </div>
-          <div class="pscene ps-import" aria-hidden="true">
-            <span class="row r1"></span><span class="row r2"></span><span class="row r3"></span>
-            <span class="arrow">&rarr;</span>
-            <span class="col k1"></span><span class="col k2"></span>
-          </div>
+          <div class="pscene ps-import" aria-hidden="true"><span class="stage">
+            <span class="sheet">
+              <b class="hrow"></b><b class="trow t1"></b><b class="trow t2"></b><b class="trow t3"></b>
+            </span>
+            <span class="fly f1"></span><span class="fly f2"></span><span class="fly f3"></span>
+            <span class="mboard">
+              <b class="bhead">New board</b>
+              <b class="brow b1"><i class="pill p1"></i></b>
+              <b class="brow b2"><i class="pill p2"></i></b>
+              <b class="brow b3"><i class="pill p3"></i></b>
+            </span>
+          </span></div>
         </a>
 
         <a class="product sky reveal" href="/ripple-preview/">
@@ -272,10 +430,15 @@
           <div class="plinks">
             <span class="btn btn-sky">See how it works →</span>
           </div>
-          <div class="pscene ps-preview" aria-hidden="true">
-            <span class="blk wire b1"></span><span class="blk real b1"></span>
-            <span class="blk wire b2"></span><span class="blk real b2"></span>
-          </div>
+          <div class="pscene ps-preview" aria-hidden="true"><span class="stage">
+            <span class="bframe">
+              <span class="bbar"></span>
+              <span class="pg wire"><b class="hero"></b><b class="tl1"></b><b class="tl2"></b><b class="btn2"></b></span>
+              <span class="pg real"><b class="hero"></b><b class="tl1"></b><b class="tl2"></b><b class="btn2"></b></span>
+              <span class="scan"></span>
+            </span>
+            <span class="livebadge">Live preview</span>
+          </span></div>
         </a>
       </div>
     </section>
