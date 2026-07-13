@@ -32,11 +32,26 @@
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Chrome, Edge",
     "installUrl": "https://chromewebstore.google.com/detail/ripplebug/hgbejokcghdecljpjgbniplicahlfaan",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Free",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      {
+        "@type": "Offer",
+        "name": "Pro (monthly)",
+        "price": "8",
+        "priceCurrency": "USD"
+      },
+      {
+        "@type": "Offer",
+        "name": "Pro (yearly)",
+        "price": "72",
+        "priceCurrency": "USD"
+      }
+    ],
     "screenshot": "https://coderippletech.com/assets/shot-board.png",
     "author": {
       "@type": "Organization",
@@ -60,6 +75,7 @@
       <a href="#capture">Capture</a>
       <a href="#board">Board</a>
       <a href="#guests">Guest reports</a>
+      <a href="#pricing">Pricing</a>
       <a class="btn btn-teal" href="https://chromewebstore.google.com/detail/ripplebug/hgbejokcghdecljpjgbniplicahlfaan">Add to Chrome</a>
     </div>
   </nav>
@@ -200,6 +216,55 @@
       </div>
     </section>
 
+    <!-- pricing -->
+    <section class="section" id="pricing">
+      <div class="section-head reveal">
+        <h2>The extension is free. Forever.</h2>
+        <p>Pay only if you want more room on the hosted board. Every tracker
+        integration, guest links and Copy for AI are on every plan.</p>
+      </div>
+      <div class="reveal" style="text-align:center;margin-bottom:34px;">
+        <div class="billing-toggle" role="tablist" aria-label="Billing period">
+          <button type="button" class="active" data-period="monthly" role="tab" aria-selected="true">Monthly</button>
+          <button type="button" data-period="yearly" role="tab" aria-selected="false">Yearly <span class="billing-save">Save 25%</span></button>
+        </div>
+      </div>
+      <div class="pricing reveal">
+        <div class="price-card">
+          <h3>Free</h3>
+          <div class="price-amount">$0</div>
+          <div class="price-period">forever</div>
+          <ul class="price-list">
+            <li>3 boards, 200 active captures each</li>
+            <li>1 GB media storage</li>
+            <li>Archive kept 30 days</li>
+            <li>Guest report links</li>
+            <li>All tracker integrations</li>
+            <li>Copy for AI</li>
+          </ul>
+          <a class="btn btn-ghost" href="https://board.coderippletech.com" style="margin-top:18px;">Create a free board</a>
+        </div>
+        <div class="price-card popular">
+          <div class="price-badge">For daily drivers</div>
+          <h3>Pro</h3>
+          <div class="price-amount" data-monthly="$8" data-yearly="$72">$8</div>
+          <div class="price-period" data-monthly="per month" data-yearly="per year">per month</div>
+          <ul class="price-list">
+            <li>Unlimited boards and captures</li>
+            <li>50 GB media storage</li>
+            <li>Archive kept forever</li>
+            <li>Everything in Free</li>
+            <li>AI triage — coming soon</li>
+            <li>Priority email support</li>
+          </ul>
+          <a class="btn btn-teal" href="https://board.coderippletech.com/settings" style="margin-top:18px;">Go Pro</a>
+        </div>
+      </div>
+      <p class="reveal" style="text-align:center;font-size:12.5px;margin-top:22px;color:var(--muted,#8a94a6);">
+        Upgrade or cancel any time from board Settings — billing is handled by Stripe.
+      </p>
+    </section>
+
     <!-- CTA -->
     <section class="section">
       <div class="cta-band reveal">
@@ -251,6 +316,19 @@
       if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
     }), { threshold: 0.12 });
     document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+    document.querySelectorAll(".billing-toggle button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const period = btn.dataset.period;
+        document.querySelectorAll(".billing-toggle button").forEach((b) => {
+          b.classList.toggle("active", b === btn);
+          b.setAttribute("aria-selected", b === btn ? "true" : "false");
+        });
+        document.querySelectorAll("[data-monthly]").forEach((el) => {
+          el.textContent = el.getAttribute("data-" + period);
+        });
+      });
+    });
   </script>
 </body>
 </html>
