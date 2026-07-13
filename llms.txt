@@ -5,6 +5,14 @@
 
 ## Products
 
+- [RippleRoot](https://coderippletech.com/rippleroot/): local-first dev
+  workspace platform for macOS, Windows and Linux. One command (`ripple up`)
+  onboards a machine: projects sync, env contracts land, and secrets travel
+  age-x25519 encrypted, released only to approved devices. Native Finder /
+  File Explorer / FUSE integration, MCP agent tools, SSO with role mapping,
+  self-host or cloud. Free for 3 seats; Team $12/seat/month ($120/seat/year);
+  Enterprise custom.
+
 - [RippleSnap](https://coderippletech.com/ripplesnap/): macOS window manager
   (macOS 14+). Drag-snapping with a layout palette and snap assist, plus saved
   workspace profiles that launch apps and place every window across multiple
