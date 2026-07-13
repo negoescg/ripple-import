@@ -75,7 +75,57 @@ const preflight = httpAction(async (_ctx, request) =>
   new Response(null, { status: 204, headers: corsHeaders(request.headers.get("Origin")) })
 );
 
+const earlyAccess = httpAction(async (_ctx, request) => {
+  const headers = corsHeaders(request.headers.get("Origin"));
+
+  let body: Record<string, unknown>;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ ok: false, error: "invalid json" }, 400, headers);
+  }
+
+  // Honeypot: bots fill it, humans never see it. Pretend success.
+  if (typeof body.website === "string" && body.website.trim() !== "") {
+    return json({ ok: true }, 200, headers);
+  }
+
+  const name = String(body.name ?? "").trim().slice(0, 200);
+  const email = String(body.email ?? "").trim().slice(0, 200);
+  const product = String(body.product ?? "RippleRoot").trim().slice(0, 100);
+  const team = String(body.team ?? "").trim().slice(0, 100);
+  const notes = String(body.notes ?? "").trim().slice(0, 5000);
+
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    return json({ ok: false, error: "missing or invalid fields" }, 400, headers);
+  }
+
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: "CodeRipple Contact <contact@coderippletech.com>",
+      to: ["support@coderippletech.com"],
+      reply_to: email,
+      subject: `[${product} early access] ${name || email}`,
+      text: `Early access request\n\nProduct: ${product}\nName: ${name || "(not given)"}\nEmail: ${email}\nTeam size: ${team || "(not given)"}\n\n${notes}`,
+    }),
+  });
+
+  if (!res.ok) {
+    console.error("resend failed", res.status, await res.text());
+    return json({ ok: false, error: "delivery failed" }, 502, headers);
+  }
+
+  return json({ ok: true }, 200, headers);
+});
+
 const http = httpRouter();
 http.route({ path: "/contact", method: "POST", handler: contact });
 http.route({ path: "/contact", method: "OPTIONS", handler: preflight });
+http.route({ path: "/early-access", method: "POST", handler: earlyAccess });
+http.route({ path: "/early-access", method: "OPTIONS", handler: preflight });
 export default http;
