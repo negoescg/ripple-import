@@ -34,9 +34,12 @@
     .product:hover { border-color: color-mix(in srgb, var(--pc) 40%, transparent); box-shadow: 0 18px 60px color-mix(in srgb, var(--pc) 12%, transparent); }
     .product .tag { color: color-mix(in srgb, var(--pc) 75%, white); }
 
-    /* micro-demo scenes — one product story per card, shared 8s timeline,
-       seamless loops (stage fades at the seam), reduced-motion shows the
-       finished composition (static styles ARE the final state). */
+    /* micro-demo scenes — every loop is a closed cycle (build -> hold ->
+       gracefully return to start). No stage fades, no blank frames: the
+       seam is motion, so you never catch the loop. Durations differ per
+       scene and phases are offset so the grid never pulses in unison.
+       Static styles are each scene's finished state (reduced-motion
+       simply shows the composition). */
     .pscene {
       position: relative; margin-top: 22px; height: 132px; max-width: 560px; border-radius: 10px;
       border: 1px solid var(--card-border); overflow: hidden;
@@ -45,19 +48,15 @@
     .pscene .stage, .pscene .stage * { position: absolute; }
     .pscene .stage { inset: 0; }
     @media (prefers-reduced-motion: no-preference) {
-      .pscene .stage { animation: stageLoop 8s linear infinite; }
-      @keyframes stageLoop { 0% { opacity: 0; } 3%, 93% { opacity: 1; } 99%, 100% { opacity: 0; } }
-      /* phase-shift each scene (negative delay) so the section never moves
-         in lockstep — at any moment most scenes are holding still */
-      .pscene .stage, .pscene .stage *, .pscene .stage *::before { animation-delay: var(--phase, 0s); }
+      .pscene .stage * , .pscene .stage *::before { animation-delay: var(--phase, 0s); }
       .ps-root { --phase: 0s; }
-      .ps-snap { --phase: -3.2s; }
-      .ps-bug { --phase: -6.4s; }
-      .ps-import { --phase: -1.6s; }
-      .ps-preview { --phase: -4.8s; }
+      .ps-snap { --phase: -4s; }
+      .ps-bug { --phase: -7s; }
+      .ps-import { --phase: -2.5s; }
+      .ps-preview { --phase: -9s; }
     }
 
-    /* ---- RippleRoot: `rr up` types, everything arrives ---- */
+    /* ---- RippleRoot (9s): type, sync, scroll away like a terminal ---- */
     .ps-root { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
     .ps-root .tbar { top: 0; left: 0; right: 0; height: 20px; background: rgba(255,255,255,0.045); border-bottom: 1px solid var(--card-border); }
     .ps-root .tbar::before { content: ""; position: absolute; top: 7px; left: 10px; width: 6px; height: 6px; border-radius: 50%; background: #ff5f57; box-shadow: 11px 0 0 #febc2e, 22px 0 0 #28c840; }
@@ -67,22 +66,24 @@
     .ps-root .cmd::before { content: "$ "; color: #34d399; }
     .ps-root .cmd b, .ps-root .cmd u { position: static; }
     .ps-root .cmd b { display: inline-block; overflow: hidden; white-space: nowrap; vertical-align: bottom; width: 5ch; font-weight: 400; }
-    .ps-root .cmd u { text-decoration: none; border-left: 6px solid #34d399; height: 12px; display: inline-block; vertical-align: -1px; margin-left: 2px; }
+    .ps-root .cmd u { text-decoration: none; border-left: 6px solid #34d399; height: 12px; display: inline-block; vertical-align: -1px; margin-left: 2px; opacity: 0; }
     .ps-root .l2 { top: 56px; } .ps-root .l3 { top: 78px; } .ps-root .l4 { top: 100px; }
     @media (prefers-reduced-motion: no-preference) {
-      .ps-root .cmd b { animation: rootType 8s steps(5, end) infinite; }
+      .ps-root .cmd { animation: rootCmd 9s ease infinite; }
+      @keyframes rootCmd { 0% { opacity: 0; transform: none; } 3%, 76% { opacity: 1; transform: none; } 85%, 100% { opacity: 0; transform: translateY(-24px); } }
+      .ps-root .cmd b { animation: rootType 9s steps(5, end) infinite; }
       @keyframes rootType { 0%, 4% { width: 0ch; } 14%, 100% { width: 5ch; } }
-      .ps-root .cmd u { animation: rootCaret 8s linear infinite; }
-      @keyframes rootCaret { 0%, 6% { opacity: 1; } 8% { opacity: 0; } 10% { opacity: 1; } 12% { opacity: 0; } 14% { opacity: 1; } 16% { opacity: 0; } 18% { opacity: 1; } 20%, 100% { opacity: 0; } }
-      .ps-root .l2 { animation: rootLn2 8s ease infinite; }
-      .ps-root .l3 { animation: rootLn3 8s ease infinite; }
-      .ps-root .l4 { animation: rootLn4 8s ease infinite; }
-      @keyframes rootLn2 { 0%, 22% { opacity: 0; transform: translateY(5px); } 27%, 100% { opacity: 1; transform: none; } }
-      @keyframes rootLn3 { 0%, 32% { opacity: 0; transform: translateY(5px); } 37%, 100% { opacity: 1; transform: none; } }
-      @keyframes rootLn4 { 0%, 42% { opacity: 0; transform: translateY(5px); } 47%, 100% { opacity: 1; transform: none; } }
+      .ps-root .cmd u { animation: rootCaret 9s linear infinite; }
+      @keyframes rootCaret { 0%, 3% { opacity: 0; } 4% { opacity: 1; } 6% { opacity: 0; } 8% { opacity: 1; } 10% { opacity: 0; } 12% { opacity: 1; } 14% { opacity: 1; } 17%, 100% { opacity: 0; } }
+      .ps-root .l2 { animation: rootL2 9s ease infinite; }
+      .ps-root .l3 { animation: rootL3 9s ease infinite; }
+      .ps-root .l4 { animation: rootL4 9s ease infinite; }
+      @keyframes rootL2 { 0%, 20% { opacity: 0; transform: translateY(5px); } 25%, 76% { opacity: 1; transform: none; } 85%, 100% { opacity: 0; transform: translateY(-24px); } }
+      @keyframes rootL3 { 0%, 30% { opacity: 0; transform: translateY(5px); } 35%, 77% { opacity: 1; transform: none; } 86%, 100% { opacity: 0; transform: translateY(-24px); } }
+      @keyframes rootL4 { 0%, 40% { opacity: 0; transform: translateY(5px); } 45%, 78% { opacity: 1; transform: none; } 87%, 100% { opacity: 0; transform: translateY(-24px); } }
     }
 
-    /* ---- RippleSnap: messy windows glide into a tiled layout ---- */
+    /* ---- RippleSnap (11s): drift messy, snap tidy, drift back ---- */
     .ps-snap .mbar { top: 0; left: 0; right: 0; height: 12px; background: rgba(255,255,255,0.05); border-bottom: 1px solid var(--card-border); }
     .ps-snap .win { border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: linear-gradient(180deg, #24344b, #1a2636); box-shadow: 0 10px 24px rgba(0,0,0,0.45); }
     .ps-snap .win b { top: 0; left: 0; right: 0; height: 9px; border-radius: 6px 6px 0 0; background: rgba(255,255,255,0.1); }
@@ -91,7 +92,7 @@
     .ps-snap .w1 { left: 12px; top: 22px; width: 45%; height: 96px; }
     .ps-snap .w2 { right: 12px; top: 22px; width: 42%; height: 44px; }
     .ps-snap .w3 { right: 12px; bottom: 12px; width: 42%; height: 44px; }
-    .ps-snap .slot { border: 1.5px dashed rgba(77, 163, 255, 0.65); border-radius: 7px; opacity: 0; }
+    .ps-snap .slot { border: 1.5px dashed rgba(77, 163, 255, 0.6); border-radius: 7px; opacity: 0; }
     .ps-snap .s1 { left: 10px; top: 20px; width: calc(45% + 4px); height: 100px; }
     .ps-snap .s2 { right: 10px; top: 20px; width: calc(42% + 4px); height: 48px; }
     .ps-snap .s3 { right: 10px; bottom: 10px; width: calc(42% + 4px); height: 48px; }
@@ -103,32 +104,40 @@
       box-shadow: 0 6px 24px rgba(77, 163, 255, 0.25);
     }
     @media (prefers-reduced-motion: no-preference) {
-      .ps-snap .w1 { animation: snapW1 8s ease infinite; }
-      .ps-snap .w2 { animation: snapW2 8s ease infinite; }
-      .ps-snap .w3 { animation: snapW3 8s ease infinite; }
+      .ps-snap .w1 { animation: snapW1 11s ease-in-out infinite; }
+      .ps-snap .w2 { animation: snapW2 11s ease-in-out infinite; }
+      .ps-snap .w3 { animation: snapW3 11s ease-in-out infinite; }
       @keyframes snapW1 {
-        0%, 30% { transform: translate(26px, 6px) rotate(3.5deg) scale(0.97); animation-timing-function: cubic-bezier(0.34, 1.4, 0.64, 1); }
-        42%, 100% { transform: none; }
+        0% { transform: translate(26px, 6px) rotate(3.5deg) scale(0.97); }
+        10% { transform: translate(29px, 3px) rotate(3deg) scale(0.97); }
+        20% { transform: translate(26px, 6px) rotate(3.5deg) scale(0.97); animation-timing-function: cubic-bezier(0.3, 1.25, 0.55, 1); }
+        30%, 74% { transform: none; }
+        94%, 100% { transform: translate(26px, 6px) rotate(3.5deg) scale(0.97); }
       }
       @keyframes snapW2 {
-        0%, 34% { transform: translate(-42px, 20px) rotate(-5deg) scale(0.97); animation-timing-function: cubic-bezier(0.34, 1.4, 0.64, 1); }
-        46%, 100% { transform: none; }
+        0% { transform: translate(-42px, 20px) rotate(-5deg) scale(0.97); }
+        10% { transform: translate(-39px, 23px) rotate(-4.4deg) scale(0.97); }
+        23% { transform: translate(-42px, 20px) rotate(-5deg) scale(0.97); animation-timing-function: cubic-bezier(0.3, 1.25, 0.55, 1); }
+        33%, 76% { transform: none; }
+        96%, 100% { transform: translate(-42px, 20px) rotate(-5deg) scale(0.97); }
       }
       @keyframes snapW3 {
-        0%, 38% { transform: translate(-18px, -24px) rotate(2.5deg) scale(0.97); animation-timing-function: cubic-bezier(0.34, 1.4, 0.64, 1); }
-        50%, 100% { transform: none; }
+        0% { transform: translate(-18px, -24px) rotate(2.5deg) scale(0.97); }
+        10% { transform: translate(-15px, -21px) rotate(3deg) scale(0.97); }
+        26% { transform: translate(-18px, -24px) rotate(2.5deg) scale(0.97); animation-timing-function: cubic-bezier(0.3, 1.25, 0.55, 1); }
+        36%, 78% { transform: none; }
+        98%, 100% { transform: translate(-18px, -24px) rotate(2.5deg) scale(0.97); }
       }
-      .ps-snap .kchip { animation: snapChip 8s ease infinite; }
-      @keyframes snapChip { 0%, 22% { opacity: 0; transform: translate(-50%, -50%) scale(0.6); } 27% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); } 30%, 52% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 58%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); } }
-      .ps-snap .s1 { animation: snapSlot1 8s ease infinite; }
-      .ps-snap .s2 { animation: snapSlot2 8s ease infinite; }
-      .ps-snap .s3 { animation: snapSlot3 8s ease infinite; }
-      @keyframes snapSlot1 { 0%, 28% { opacity: 0; } 32%, 42% { opacity: 0.9; } 50%, 100% { opacity: 0; } }
-      @keyframes snapSlot2 { 0%, 32% { opacity: 0; } 36%, 46% { opacity: 0.9; } 54%, 100% { opacity: 0; } }
-      @keyframes snapSlot3 { 0%, 36% { opacity: 0; } 40%, 50% { opacity: 0.9; } 58%, 100% { opacity: 0; } }
+      .ps-snap .kchip { animation: snapChip 11s ease infinite; }
+      @keyframes snapChip { 0%, 16% { opacity: 0; transform: translate(-50%, -50%) scale(0.7); } 20%, 40% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 48%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); } }
+      .ps-snap .slot { animation: snapSlot 11s ease infinite; }
+      .ps-snap .s2 { animation-name: snapSlot2; } .ps-snap .s3 { animation-name: snapSlot3; }
+      @keyframes snapSlot { 0%, 26% { opacity: 0; } 30%, 38% { opacity: 0.85; } 46%, 100% { opacity: 0; } }
+      @keyframes snapSlot2 { 0%, 29% { opacity: 0; } 33%, 41% { opacity: 0.85; } 49%, 100% { opacity: 0; } }
+      @keyframes snapSlot3 { 0%, 32% { opacity: 0; } 36%, 44% { opacity: 0.85; } 52%, 100% { opacity: 0; } }
     }
 
-    /* ---- Ripplebug: error → flash → capture card assembles → filed ---- */
+    /* ---- Ripplebug (10s): the card frame stays; captures cycle through it ---- */
     .ps-bug .page { left: 12px; top: 12px; bottom: 12px; width: 34%; border-radius: 7px; border: 1px solid rgba(255,255,255,0.14); background: #131c29; }
     .ps-bug .page::before { content: ""; position: absolute; left: 8px; right: 8px; top: 10px; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.13); box-shadow: 0 11px 0 rgba(255,255,255,0.09), 0 22px 0 rgba(255,255,255,0.07), 0 33px 0 rgba(255,255,255,0.05); }
     .ps-bug .err {
@@ -153,27 +162,25 @@
       border-radius: 999px; padding: 3px 10px;
     }
     @media (prefers-reduced-motion: no-preference) {
-      .ps-bug .err { animation: bugErr 8s ease infinite; }
-      @keyframes bugErr { 0%, 6% { transform: none; } 7% { transform: translateX(-2px); } 8% { transform: translateX(2px); } 9% { transform: translateX(-2px); } 10% { transform: none; } 100% { transform: none; } }
-      .ps-bug .flash { animation: bugFlash 8s ease infinite; }
-      @keyframes bugFlash { 0%, 12% { opacity: 0; } 14% { opacity: 0.85; } 18%, 100% { opacity: 0; } }
-      .ps-bug .card { animation: bugCard 8s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-      @keyframes bugCard { 0%, 15% { opacity: 0; transform: translateY(10px) scale(0.97); } 22%, 100% { opacity: 1; transform: none; } }
-      .ps-bug .thumb { animation: bugThumb 8s ease infinite; }
-      @keyframes bugThumb { 0%, 20% { opacity: 0; transform: scale(0.5); } 26%, 100% { opacity: 1; transform: none; } }
-      .ps-bug .titleln { animation: bugTitle 8s ease infinite; }
-      @keyframes bugTitle { 0%, 25% { opacity: 0; } 31%, 100% { opacity: 1; } }
-      .ps-bug .sevchip { animation: bugSev 8s ease infinite; }
-      @keyframes bugSev { 0%, 30% { opacity: 0; transform: scale(0.6); } 35% { opacity: 1; transform: scale(1.15); } 38%, 100% { opacity: 1; transform: none; } }
-      .ps-bug .cl { animation: bugCl 8s ease infinite; }
-      .ps-bug .cl2 { animation-name: bugCl2; }
-      @keyframes bugCl { 0%, 38% { transform: scaleX(0); } 46%, 100% { transform: scaleX(1); } }
-      @keyframes bugCl2 { 0%, 42% { transform: scaleX(0); } 50%, 100% { transform: scaleX(1); } }
-      .ps-bug .filed { animation: bugFiled 8s ease infinite; }
-      @keyframes bugFiled { 0%, 52% { opacity: 0; transform: scale(0.7) translateY(4px); } 58% { opacity: 1; transform: scale(1.08); } 61%, 100% { opacity: 1; transform: none; } }
+      .ps-bug .err { animation: bugErr 10s ease infinite; }
+      @keyframes bugErr { 0%, 5% { transform: none; } 6% { transform: translateX(-2px); } 7% { transform: translateX(2px); } 8% { transform: translateX(-2px); } 9%, 100% { transform: none; } }
+      .ps-bug .flash { animation: bugFlash 10s ease infinite; }
+      @keyframes bugFlash { 0%, 10% { opacity: 0; } 12% { opacity: 0.85; } 15%, 100% { opacity: 0; } }
+      .ps-bug .thumb { animation: bugThumb 10s ease infinite; }
+      @keyframes bugThumb { 0%, 14% { opacity: 0; transform: scale(0.6); } 19%, 74% { opacity: 1; transform: none; } 84%, 100% { opacity: 0; transform: scale(0.92); } }
+      .ps-bug .titleln { animation: bugTitle 10s ease infinite; }
+      @keyframes bugTitle { 0%, 18% { opacity: 0; } 23%, 75% { opacity: 1; } 85%, 100% { opacity: 0; } }
+      .ps-bug .sevchip { animation: bugSev 10s ease infinite; }
+      @keyframes bugSev { 0%, 23% { opacity: 0; transform: scale(0.7); } 27% { opacity: 1; transform: scale(1.12); } 30%, 76% { opacity: 1; transform: none; } 86%, 100% { opacity: 0; transform: scale(0.92); } }
+      .ps-bug .cl1 { animation: bugCl1 10s ease infinite; }
+      .ps-bug .cl2 { animation: bugCl2 10s ease infinite; }
+      @keyframes bugCl1 { 0%, 28% { transform: scaleX(0); opacity: 1; } 36%, 76% { transform: scaleX(1); opacity: 1; } 86%, 100% { opacity: 0; transform: scaleX(1); } }
+      @keyframes bugCl2 { 0%, 32% { transform: scaleX(0); opacity: 1; } 40%, 77% { transform: scaleX(1); opacity: 1; } 87%, 100% { opacity: 0; transform: scaleX(1); } }
+      .ps-bug .filed { animation: bugFiled 10s ease infinite; }
+      @keyframes bugFiled { 0%, 44% { opacity: 0; transform: scale(0.75) translateY(3px); } 49% { opacity: 1; transform: scale(1.06); } 52%, 70% { opacity: 1; transform: none; } 80%, 100% { opacity: 0; transform: none; } }
     }
 
-    /* ---- Ripple Import: spreadsheet rows fly into a monday-style board ---- */
+    /* ---- Ripple Import (10.5s): rows flow over, board fills, then resets softly ---- */
     .ps-import .sheet { left: 12px; top: 12px; bottom: 12px; width: 36%; border-radius: 7px; border: 1px solid rgba(255,255,255,0.14); background: #121a26; overflow: hidden; }
     .ps-import .sheet::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent calc(33% - 1px), rgba(255,255,255,0.07) 33%, transparent calc(33% + 1px)), linear-gradient(90deg, transparent calc(66% - 1px), rgba(255,255,255,0.07) 66%, transparent calc(66% + 1px)); }
     .ps-import .hrow { left: 0; right: 0; top: 0; height: 22px; background: rgba(255,255,255,0.07); border-bottom: 1px solid rgba(255,255,255,0.1); }
@@ -184,91 +191,97 @@
     .ps-import .f1 { top: 26px; } .ps-import .f2 { top: 52px; } .ps-import .f3 { top: 78px; }
     .ps-import .mboard { right: 12px; top: 12px; bottom: 12px; width: 46%; border-radius: 7px; border: 1px solid rgba(125, 102, 253, 0.4); background: rgba(125, 102, 253, 0.06); overflow: hidden; }
     .ps-import .bhead { left: 0; right: 0; top: 0; height: 20px; background: linear-gradient(90deg, rgba(125, 102, 253, 0.5), rgba(125, 102, 253, 0.25)); font-size: 9.5px; font-weight: 700; color: #e8e2ff; line-height: 20px; padding-left: 8px; letter-spacing: 0.04em; }
-    .ps-import .brow { left: 6px; right: 6px; height: 22px; border-radius: 4px; border: 1px dashed rgba(125, 102, 253, 0.35); }
+    .ps-import .brow { left: 6px; right: 6px; height: 22px; border-radius: 4px; border: 1px solid rgba(125, 102, 253, 0.35); background: rgba(125, 102, 253, 0.16); }
     .ps-import .b1 { top: 26px; } .ps-import .b2 { top: 52px; } .ps-import .b3 { top: 78px; }
-    .ps-import .brow::before { content: ""; position: absolute; left: 6px; top: 8px; width: 46%; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.2); opacity: 0; }
-    .ps-import .pill { right: 5px; top: 4px; width: 26px; height: 14px; border-radius: 4px; opacity: 0; }
+    .ps-import .brow::before { content: ""; position: absolute; left: 6px; top: 8px; width: 46%; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.2); }
+    .ps-import .pill { right: 5px; top: 4px; width: 26px; height: 14px; border-radius: 4px; }
     .ps-import .p1 { background: #33c48d; } .ps-import .p2 { background: #fdab3d; } .ps-import .p3 { background: #579bfc; }
     @media (prefers-reduced-motion: no-preference) {
-      .ps-import .fly { animation: 8s ease-in-out infinite; }
+      .ps-import .fly { animation: 10.5s ease-in-out infinite; }
       .ps-import .f1 { animation-name: flyRow1; } .ps-import .f2 { animation-name: flyRow2; } .ps-import .f3 { animation-name: flyRow3; }
-      @keyframes flyRow1 { 0%, 12% { opacity: 0; transform: none; } 15% { opacity: 1; } 27% { opacity: 1; transform: translateX(148%) translateY(12px); } 30%, 100% { opacity: 0; transform: translateX(148%) translateY(12px); } }
-      @keyframes flyRow2 { 0%, 26% { opacity: 0; transform: none; } 29% { opacity: 1; } 41% { opacity: 1; transform: translateX(148%) translateY(12px); } 44%, 100% { opacity: 0; transform: translateX(148%) translateY(12px); } }
-      @keyframes flyRow3 { 0%, 40% { opacity: 0; transform: none; } 43% { opacity: 1; } 55% { opacity: 1; transform: translateX(148%) translateY(12px); } 58%, 100% { opacity: 0; transform: translateX(148%) translateY(12px); } }
-      .ps-import .brow { animation: 8s ease infinite; }
+      @keyframes flyRow1 { 0%, 10% { opacity: 0; transform: none; } 13% { opacity: 1; } 24% { opacity: 1; transform: translateX(148%) translateY(12px); } 27%, 100% { opacity: 0; transform: translateX(148%) translateY(12px); } }
+      @keyframes flyRow2 { 0%, 22% { opacity: 0; transform: none; } 25% { opacity: 1; } 36% { opacity: 1; transform: translateX(148%) translateY(12px); } 39%, 100% { opacity: 0; transform: translateX(148%) translateY(12px); } }
+      @keyframes flyRow3 { 0%, 34% { opacity: 0; transform: none; } 37% { opacity: 1; } 48% { opacity: 1; transform: translateX(148%) translateY(12px); } 51%, 100% { opacity: 0; transform: translateX(148%) translateY(12px); } }
+      .ps-import .brow { animation: 10.5s ease infinite; }
       .ps-import .b1 { animation-name: landRow1; } .ps-import .b2 { animation-name: landRow2; } .ps-import .b3 { animation-name: landRow3; }
-      @keyframes landRow1 { 0%, 26% { background: transparent; border-style: dashed; } 30%, 100% { background: rgba(125, 102, 253, 0.16); border-style: solid; } }
-      @keyframes landRow2 { 0%, 40% { background: transparent; border-style: dashed; } 44%, 100% { background: rgba(125, 102, 253, 0.16); border-style: solid; } }
-      @keyframes landRow3 { 0%, 54% { background: transparent; border-style: dashed; } 58%, 100% { background: rgba(125, 102, 253, 0.16); border-style: solid; } }
-      .ps-import .b1::before { animation: landLn1 8s ease infinite; }
-      .ps-import .b2::before { animation: landLn2 8s ease infinite; }
-      .ps-import .b3::before { animation: landLn3 8s ease infinite; }
-      @keyframes landLn1 { 0%, 27% { opacity: 0; } 31%, 100% { opacity: 1; } }
-      @keyframes landLn2 { 0%, 41% { opacity: 0; } 45%, 100% { opacity: 1; } }
-      @keyframes landLn3 { 0%, 55% { opacity: 0; } 59%, 100% { opacity: 1; } }
-      .ps-import .pill { animation: 8s ease infinite; }
+      @keyframes landRow1 { 0%, 23% { background: rgba(125,102,253,0); border-style: dashed; } 27%, 80% { background: rgba(125, 102, 253, 0.16); border-style: solid; } 92%, 100% { background: rgba(125,102,253,0); border-style: dashed; } }
+      @keyframes landRow2 { 0%, 35% { background: rgba(125,102,253,0); border-style: dashed; } 39%, 81% { background: rgba(125, 102, 253, 0.16); border-style: solid; } 93%, 100% { background: rgba(125,102,253,0); border-style: dashed; } }
+      @keyframes landRow3 { 0%, 47% { background: rgba(125,102,253,0); border-style: dashed; } 51%, 82% { background: rgba(125, 102, 253, 0.16); border-style: solid; } 94%, 100% { background: rgba(125,102,253,0); border-style: dashed; } }
+      .ps-import .b1::before { animation: landLn1 10.5s ease infinite; }
+      .ps-import .b2::before { animation: landLn2 10.5s ease infinite; }
+      .ps-import .b3::before { animation: landLn3 10.5s ease infinite; }
+      @keyframes landLn1 { 0%, 24% { opacity: 0; } 28%, 80% { opacity: 1; } 92%, 100% { opacity: 0; } }
+      @keyframes landLn2 { 0%, 36% { opacity: 0; } 40%, 81% { opacity: 1; } 93%, 100% { opacity: 0; } }
+      @keyframes landLn3 { 0%, 48% { opacity: 0; } 52%, 82% { opacity: 1; } 94%, 100% { opacity: 0; } }
+      .ps-import .pill { animation: 10.5s ease infinite; }
       .ps-import .p1 { animation-name: pillPop1; } .ps-import .p2 { animation-name: pillPop2; } .ps-import .p3 { animation-name: pillPop3; }
-      @keyframes pillPop1 { 0%, 28% { opacity: 0; transform: scale(0.5); } 33% { opacity: 1; transform: scale(1.15); } 36%, 100% { opacity: 1; transform: none; } }
-      @keyframes pillPop2 { 0%, 42% { opacity: 0; transform: scale(0.5); } 47% { opacity: 1; transform: scale(1.15); } 50%, 100% { opacity: 1; transform: none; } }
-      @keyframes pillPop3 { 0%, 56% { opacity: 0; transform: scale(0.5); } 61% { opacity: 1; transform: scale(1.15); } 64%, 100% { opacity: 1; transform: none; } }
-      .ps-import .trow::before { animation: 8s ease infinite; }
-      .ps-import .t1::before { animation-name: srcDim1; } .ps-import .t2::before { animation-name: srcDim2; } .ps-import .t3::before { animation-name: srcDim3; }
-      @keyframes srcDim1 { 0%, 26% { opacity: 1; } 30%, 100% { opacity: 0.3; } }
-      @keyframes srcDim2 { 0%, 40% { opacity: 1; } 44%, 100% { opacity: 0.3; } }
-      @keyframes srcDim3 { 0%, 54% { opacity: 1; } 58%, 100% { opacity: 0.3; } }
+      @keyframes pillPop1 { 0%, 25% { opacity: 0; transform: scale(0.6); } 29% { opacity: 1; transform: scale(1.12); } 32%, 80% { opacity: 1; transform: none; } 92%, 100% { opacity: 0; transform: none; } }
+      @keyframes pillPop2 { 0%, 37% { opacity: 0; transform: scale(0.6); } 41% { opacity: 1; transform: scale(1.12); } 44%, 81% { opacity: 1; transform: none; } 93%, 100% { opacity: 0; transform: none; } }
+      @keyframes pillPop3 { 0%, 49% { opacity: 0; transform: scale(0.6); } 53% { opacity: 1; transform: scale(1.12); } 56%, 82% { opacity: 1; transform: none; } 94%, 100% { opacity: 0; transform: none; } }
+      .ps-import .t1::before { animation: srcDim1 10.5s ease infinite; }
+      .ps-import .t2::before { animation: srcDim2 10.5s ease infinite; }
+      .ps-import .t3::before { animation: srcDim3 10.5s ease infinite; }
+      @keyframes srcDim1 { 0%, 23% { opacity: 1; } 27%, 80% { opacity: 0.3; } 92%, 100% { opacity: 1; } }
+      @keyframes srcDim2 { 0%, 35% { opacity: 1; } 39%, 81% { opacity: 0.3; } 93%, 100% { opacity: 1; } }
+      @keyframes srcDim3 { 0%, 47% { opacity: 1; } 51%, 82% { opacity: 0.3; } 94%, 100% { opacity: 1; } }
     }
 
-    /* ---- Ripple Preview: scanline renders a real page structure ---- */
+    /* ---- Ripple Preview (12s): scanline renders down, holds, un-renders up ---- */
     .ps-preview .bframe { left: 12px; right: 12px; top: 10px; bottom: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.14); background: #101826; overflow: hidden; }
     .ps-preview .bbar { left: 0; right: 0; top: 0; height: 17px; background: rgba(255,255,255,0.05); border-bottom: 1px solid var(--card-border); }
     .ps-preview .bbar::before { content: ""; position: absolute; top: 6px; left: 8px; width: 5px; height: 5px; border-radius: 50%; background: #ff5f57; box-shadow: 9px 0 0 #febc2e, 18px 0 0 #28c840; }
     .ps-preview .livebadge {
       right: 8px; top: 2px; font-size: 8.5px; font-weight: 700; color: #7dd3fc;
-      border-radius: 999px; padding: 1px 7px; opacity: 0; z-index: 3;
+      border-radius: 999px; padding: 1px 7px; z-index: 3;
       background: rgba(56, 189, 248, 0.14); border: 1px solid rgba(56, 189, 248, 0.4);
     }
     .ps-preview .livebadge::before { content: "\25CF"; margin-right: 4px; font-size: 7px; color: #38bdf8; }
     .ps-preview .pg { left: 12px; right: 12px; top: 25px; bottom: 8px; }
     .ps-preview .pg b { border-radius: 3px; }
-    /* page structure: nav / hero+heading / image + text column / button */
     .ps-preview .pnav { top: 0; left: 0; right: 0; height: 8px; }
     .ps-preview .pnav::before { content: ""; position: absolute; left: 2px; top: 2px; width: 22px; height: 4px; border-radius: 2px; background: inherit; }
-    .ps-preview .hero { top: 12px; left: 0; right: 0; height: 24px; }
-    .ps-preview .hero::before { content: ""; position: absolute; left: 8px; top: 6px; width: 42%; height: 5px; border-radius: 3px; }
-    .ps-preview .hero::after { content: ""; position: absolute; left: 8px; top: 15px; width: 26%; height: 3px; border-radius: 2px; }
+    .ps-preview .phero { top: 12px; left: 0; right: 0; height: 24px; }
+    .ps-preview .phero::before { content: ""; position: absolute; left: 8px; top: 6px; width: 42%; height: 5px; border-radius: 3px; }
+    .ps-preview .phero::after { content: ""; position: absolute; left: 8px; top: 15px; width: 26%; height: 3px; border-radius: 2px; }
     .ps-preview .pimg { top: 42px; left: 0; width: 30%; height: 32px; }
     .ps-preview .tl1 { top: 45px; left: 35%; width: 58%; height: 6px; }
     .ps-preview .tl2 { top: 55px; left: 35%; width: 44%; height: 6px; }
     .ps-preview .btn2 { top: 64px; left: 35%; width: 56px; height: 10px; border-radius: 5px; }
-    /* wireframe pass: dashed gray */
     .ps-preview .wire b { border: 1px dashed rgba(255,255,255,0.26); background: rgba(255,255,255,0.03); }
     .ps-preview .wire .pimg { background: repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0 6px, transparent 6px 12px); }
-    .ps-preview .wire .hero::before, .ps-preview .wire .hero::after { border: 1px dashed rgba(255,255,255,0.2); }
-    /* rendered pass: the real page */
+    .ps-preview .wire .phero::before, .ps-preview .wire .phero::after { border: 1px dashed rgba(255,255,255,0.2); }
     .ps-preview .real .pnav { background: rgba(255,255,255,0.12); border: none; }
-    .ps-preview .real .hero { background: linear-gradient(120deg, #1e6f9e, #38bdf8 60%, #7d66fd); border: none; }
-    .ps-preview .real .hero::before { background: rgba(255,255,255,0.85); }
-    .ps-preview .real .hero::after { background: rgba(255,255,255,0.45); }
+    .ps-preview .real .phero { background: linear-gradient(120deg, #1e6f9e, #38bdf8 60%, #7d66fd); border: none; }
+    .ps-preview .real .phero::before { background: rgba(255,255,255,0.85); }
+    .ps-preview .real .phero::after { background: rgba(255,255,255,0.45); }
     .ps-preview .real .pimg { background: linear-gradient(135deg, #164e63, #38bdf8); border: none; }
     .ps-preview .real .tl1, .ps-preview .real .tl2 { background: rgba(255,255,255,0.38); border: none; }
     .ps-preview .real .btn2 { background: #38bdf8; border: none; }
-    .ps-preview .real { clip-path: inset(0 0 100% 0); }
     .ps-preview .scan { left: 10px; right: 10px; top: 25px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, transparent, #38bdf8, transparent); box-shadow: 0 0 14px 2px rgba(56, 189, 248, 0.5); opacity: 0; z-index: 2; }
     @media (prefers-reduced-motion: no-preference) {
-      .ps-preview .real { animation: renderIn 8s ease-in-out infinite; }
-      @keyframes renderIn { 0%, 18% { clip-path: inset(0 0 100% 0); } 55%, 100% { clip-path: inset(0 0 0% 0); } }
-      .ps-preview .scan { animation: scanMove 8s ease-in-out infinite; }
-      @keyframes scanMove { 0%, 16% { transform: translateY(0); opacity: 0; } 18% { opacity: 1; } 54% { transform: translateY(78px); opacity: 1; } 57%, 100% { transform: translateY(78px); opacity: 0; } }
-      .ps-preview .livebadge { animation: liveIn 8s ease infinite; }
-      @keyframes liveIn { 0%, 56% { opacity: 0; } 61%, 100% { opacity: 1; } }
+      .ps-preview .real { animation: renderCycle 12s ease-in-out infinite; }
+      @keyframes renderCycle {
+        0%, 8% { clip-path: inset(0 0 100% 0); }
+        34%, 66% { clip-path: inset(0 0 0% 0); }
+        92%, 100% { clip-path: inset(0 0 100% 0); }
+      }
+      .ps-preview .scan { animation: scanCycle 12s ease-in-out infinite; }
+      @keyframes scanCycle {
+        0%, 6% { transform: translateY(0); opacity: 0; }
+        8% { opacity: 1; }
+        34% { transform: translateY(78px); opacity: 1; }
+        37% { transform: translateY(78px); opacity: 0; }
+        63% { transform: translateY(78px); opacity: 0; }
+        66% { transform: translateY(78px); opacity: 1; }
+        92% { transform: translateY(0); opacity: 1; }
+        94%, 100% { transform: translateY(0); opacity: 0; }
+      }
     }
+
     @media (prefers-reduced-motion: reduce) {
+      /* statics are the finished composition; hide transient effects */
       .ps-preview .real { clip-path: none; }
-      .ps-preview .scan { display: none; }
-      .ps-snap .kchip, .ps-import .fly { display: none; }
-      .ps-bug .filed, .ps-bug .sevchip, .ps-import .pill, .ps-preview .livebadge { opacity: 1; }
-      .ps-import .brow { background: rgba(125, 102, 253, 0.16); border-style: solid; }
-      .ps-import .brow::before { opacity: 1; }
+      .ps-preview .scan, .ps-snap .kchip, .ps-snap .slot, .ps-import .fly, .ps-bug .flash { display: none; }
     }
   </style>
   <meta name="theme-color" content="#0a0e14">
@@ -455,8 +468,8 @@
             <span class="bframe">
               <span class="bbar"></span>
               <span class="livebadge">Live preview</span>
-              <span class="pg wire"><b class="pnav"></b><b class="hero"></b><b class="pimg"></b><b class="tl1"></b><b class="tl2"></b><b class="btn2"></b></span>
-              <span class="pg real"><b class="pnav"></b><b class="hero"></b><b class="pimg"></b><b class="tl1"></b><b class="tl2"></b><b class="btn2"></b></span>
+              <span class="pg wire"><b class="pnav"></b><b class="phero"></b><b class="pimg"></b><b class="tl1"></b><b class="tl2"></b><b class="btn2"></b></span>
+              <span class="pg real"><b class="pnav"></b><b class="phero"></b><b class="pimg"></b><b class="tl1"></b><b class="tl2"></b><b class="btn2"></b></span>
               <span class="scan"></span>
             </span>
           </span></div>
