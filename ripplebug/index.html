@@ -4,22 +4,106 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ripplebug — Every bug, captured whole.</title>
-  <meta name="description" content="One click captures the screenshot, screen recording, console and network — then files the bug to Azure DevOps, GitHub, Jira, Linear, GitLab or Trello, or straight onto your live triage board.">
+  <meta name="description" content="One click captures the screenshot, screen recording, console and network — then files the bug to your tracker or a live board where AI summarizes it, rates severity and drafts repro steps.">
   <link rel="icon" type="image/png" href="/assets/ripplebug-logo.png">
   <link rel="stylesheet" href="/site.css?v=13">
   <link rel="canonical" href="https://coderippletech.com/ripplebug/">
+  <style>
+    /* ripplebug-page-only polish — shared site.css stays untouched */
+    .features .feature {
+      transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .features .feature:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 50px rgba(34, 211, 206, 0.08);
+    }
+    .features .reveal:nth-child(2) { transition-delay: 0.07s; }
+    .features .reveal:nth-child(3) { transition-delay: 0.14s; }
+    .features .reveal:nth-child(4) { transition-delay: 0.21s; }
+    .features .reveal:nth-child(5) { transition-delay: 0.07s; }
+    .features .reveal:nth-child(6) { transition-delay: 0.14s; }
+    .features .reveal:nth-child(7) { transition-delay: 0.21s; }
+    .price-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .price-card:hover { transform: translateY(-4px); }
+    .price-card.popular:hover { box-shadow: 0 18px 60px rgba(34, 211, 206, 0.14); }
+
+    .pro-chip {
+      display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.04em; vertical-align: 2px;
+      color: var(--accent); background: var(--accent-soft);
+      border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+    }
+
+    /* AI triage demo panel */
+    .ai-panel {
+      position: relative; border-radius: 14px; padding: 22px;
+      background: var(--bg-2); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+    .ai-panel::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(105deg, transparent 40%, rgba(34, 211, 206, 0.07) 50%, transparent 60%);
+      transform: translateX(-100%);
+    }
+    .ai-panel-head {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .ai-rerun {
+      display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px;
+      border: 1px solid var(--card-border); border-radius: 8px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0; color: var(--muted);
+    }
+    .ai-line { opacity: 0; transform: translateY(10px); }
+    .ai-summary { font-size: 15.5px; margin-bottom: 14px; }
+    .ai-sevrow { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); margin-bottom: 14px; flex-wrap: wrap; }
+    .sev-chip {
+      padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 700;
+      color: #fbbf24; background: rgba(251, 191, 36, 0.12); border: 1px solid rgba(251, 191, 36, 0.35);
+    }
+    .ai-apply {
+      padding: 2px 10px; border-radius: 7px; font-size: 12px; font-weight: 600;
+      color: var(--text); border: 1px solid var(--card-border); background: var(--card);
+    }
+    .ai-steps { font-size: 13.5px; color: var(--muted); border-top: 1px dashed var(--card-border); padding-top: 12px; margin-bottom: 12px; }
+    .ai-steps p { margin: 3px 0; }
+    .ai-steps .ai-steps-label { color: var(--text); font-weight: 600; margin-bottom: 6px; }
+    .ai-dup {
+      font-size: 12.5px; color: var(--muted); padding: 7px 10px; border-radius: 8px;
+      border: 1px dashed rgba(251, 191, 36, 0.35); background: rgba(251, 191, 36, 0.05);
+      margin-bottom: 12px;
+    }
+    .ai-dup strong { color: var(--text); }
+    .ai-meta { font-size: 11px; color: color-mix(in srgb, var(--muted) 65%, transparent); }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal.in .ai-line { animation: aiLine 0.55s ease forwards; }
+      .reveal.in .ai-line:nth-of-type(2) { animation-delay: 0.25s; }
+      .reveal.in .ai-line:nth-of-type(3) { animation-delay: 0.5s; }
+      .reveal.in .ai-line:nth-of-type(4) { animation-delay: 0.75s; }
+      .reveal.in .ai-line:nth-of-type(5) { animation-delay: 1s; }
+      .reveal.in.ai-panel::after { animation: aiSweep 2.6s ease 1.2s 2; }
+      @keyframes aiLine { to { opacity: 1; transform: none; } }
+      @keyframes aiSweep { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ai-line { opacity: 1; transform: none; }
+    }
+  </style>
   <meta name="theme-color" content="#0a0e14">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="CodeRipple Tech">
   <meta property="og:url" content="https://coderippletech.com/ripplebug/">
   <meta property="og:title" content="Ripplebug — Every bug, captured whole.">
-  <meta property="og:description" content="One click captures the screenshot, recording, console and network, then files a complete ticket to your tracker or live triage board.">
+  <meta property="og:description" content="One click captures the screenshot, recording, console and network — filed to your tracker or an AI-triaged live board.">
   <meta property="og:image" content="https://coderippletech.com/assets/og-ripplebug.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Ripplebug — Every bug, captured whole.">
-  <meta name="twitter:description" content="One click captures the screenshot, recording, console and network, then files a complete ticket to your tracker or live triage board.">
+  <meta name="twitter:description" content="One click captures the screenshot, recording, console and network — filed to your tracker or an AI-triaged live board.">
   <meta name="twitter:image" content="https://coderippletech.com/assets/og-ripplebug.png">
   <script type="application/ld+json">
   {
@@ -28,7 +112,7 @@
     "name": "Ripplebug",
     "url": "https://coderippletech.com/ripplebug/",
     "image": "https://coderippletech.com/assets/og-ripplebug.png",
-    "description": "Chrome and Edge extension that captures the screenshot, screen recording, console and network in one click, then files a complete bug ticket to Azure DevOps, GitHub, Jira, Linear, GitLab, Trello or a live triage board.",
+    "description": "Chrome and Edge extension that captures the screenshot, screen recording, console and network in one click, then files a complete bug ticket to Azure DevOps, GitHub, Jira, Linear, GitLab, Trello or a live triage board with AI summaries, severity suggestions and repro-step drafts.",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Chrome, Edge",
     "installUrl": "https://chromewebstore.google.com/detail/ripplebug/hgbejokcghdecljpjgbniplicahlfaan",
@@ -75,6 +159,7 @@
       <a href="#capture">Capture</a>
       <a href="#board">Board</a>
       <a href="#guests">Guest reports</a>
+      <a href="#ai">AI triage</a>
       <a href="#pricing">Pricing</a>
       <a class="btn btn-teal" href="https://chromewebstore.google.com/detail/ripplebug/hgbejokcghdecljpjgbniplicahlfaan">Add to Chrome</a>
     </div>
@@ -87,7 +172,7 @@
     <h1 class="display">Every bug,<br><span class="grad-teal">captured whole.</span></h1>
     <p class="lede">Stop writing bug reports nobody can reproduce. One click captures the
     screenshot, the screen recording, the console and the network, then files a complete
-    ticket wherever your team tracks work.</p>
+    ticket wherever your team tracks work. On Pro boards, AI triages every report the moment it lands.</p>
     <div class="hero-ctas">
       <a class="btn btn-teal" href="https://chromewebstore.google.com/detail/ripplebug/hgbejokcghdecljpjgbniplicahlfaan">Add to Chrome — free</a>
       <a class="btn btn-ghost" href="https://board.coderippletech.com">Create a free board</a>
@@ -162,6 +247,11 @@
           <p>Every capture becomes a draggable card with columns, sub-groups, comments and archive. It updates in real time for everyone.</p>
         </div>
         <div class="feature reveal">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></div>
+          <h4>AI triage on arrival</h4>
+          <p>New reports get a summary, a suggested severity, draft repro steps and duplicate flags — before you even open the board. Pro boards, automatic.</p>
+        </div>
+        <div class="feature reveal">
           <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg></div>
           <h4>Copy for AI</h4>
           <p>Turn any capture into a paste-ready debugging prompt for Claude, Cursor, or any AI tool. Steps, console, network and environment included.</p>
@@ -216,6 +306,45 @@
       </div>
     </section>
 
+    <!-- AI triage demo -->
+    <section class="section" id="ai">
+      <div class="split">
+        <div class="split-copy reveal">
+          <h3>Triage happens before you<br>open the board.<span class="pro-chip">PRO</span></h3>
+          <p>The moment a report lands — from the extension or a guest link —
+          AI reads the description, the console and the network capture, and
+          leaves its notes on the card. You arrive to a board that's already
+          sorted.</p>
+          <ul>
+            <li>Plain-language summary and a suggested severity, one click to apply</li>
+            <li>Repro steps drafted from the captured console and network context</li>
+            <li>"Possible duplicate of…" flags before two people fix the same bug</li>
+            <li>Re-run any time from the card — 200 triages per board, per month</li>
+          </ul>
+        </div>
+        <div class="ai-panel reveal">
+          <div class="ai-panel-head">
+            <span>AI TRIAGE</span>
+            <span class="ai-rerun">✦ Re-run</span>
+          </div>
+          <p class="ai-line ai-summary">The Login button is unresponsive in Safari, preventing users from signing in.</p>
+          <div class="ai-line ai-sevrow">
+            <span>Suggested severity:</span>
+            <span class="sev-chip">High</span>
+            <span class="ai-apply">Apply</span>
+          </div>
+          <div class="ai-line ai-steps">
+            <p class="ai-steps-label">▾ Suggested repro steps</p>
+            <p>1. Open the affected page in Safari.</p>
+            <p>2. Click the Login button.</p>
+            <p>3. Observe that the button does not respond.</p>
+          </div>
+          <p class="ai-line ai-dup">Possible duplicate of <strong>Login broken on Safari 17</strong></p>
+          <p class="ai-line ai-meta">triaged automatically · just now</p>
+        </div>
+      </div>
+    </section>
+
     <!-- pricing -->
     <section class="section" id="pricing">
       <div class="section-head reveal">
@@ -254,7 +383,7 @@
             <li>50 GB media storage</li>
             <li>Archive kept forever</li>
             <li>Everything in Free</li>
-            <li>AI triage — coming soon</li>
+            <li>AI triage — summaries, severity, repro drafts, dedup</li>
             <li>Priority email support</li>
           </ul>
           <a class="btn btn-teal" href="https://board.coderippletech.com/settings" style="margin-top:18px;">Go Pro</a>
